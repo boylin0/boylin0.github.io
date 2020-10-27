@@ -15,17 +15,16 @@ import fontawesome from '@fortawesome/fontawesome-free/js/all.min.js';
 
 
 import {
-  BrowserRouter as Router,
+  HashRouter,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import Home from './route/home/home';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={ process.env.PUBLIC_URL }>
+    <HashRouter>
       <Navbar />
 
       <Switch>
@@ -36,7 +35,8 @@ ReactDOM.render(
           <Home />
         </Route>
       </Switch>
-    </Router>
+      
+    </HashRouter>
 
   </React.StrictMode>,
   document.getElementById('root')
