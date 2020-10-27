@@ -103,98 +103,101 @@ class LiveABC extends React.Component {
 
   render() {
     return (
-      <div class="container p-3 mb-5">
-        <div class="row">
-          <div class="col-12">
-            <h2 className="font-weight-light">LiveABC Tool</h2><small>(已搜集總題數:&nbsp;{this.state.problem_db_Count})</small>
+      <>
+        <div class="container p-3 mb-5">
+          <div class="row">
+            <div class="col-12">
+              <h2 className="font-weight-light">LiveABC Tool</h2><small>(已搜集總題數:&nbsp;{this.state.problem_db_Count})</small>
+            </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-12 mt-4">
-            <h4>使用範例：
+
+        <div className="container-sm p-0">
+          <h4>使用範例：
                 <a onClick={() => {
-                this.setState((state, props) => ({
-                  tutorial_display: !state.tutorial_display
-                }));
-              }} class="btn btn-sm btn-outline-info">顯示內容</a>
-            </h4>
-            <video className={this.state.tutorial_display ? 'fadeIn' : 'fadeOut'} style={{ width: '100%', maxWidth: '768px' }} controls src={liveabc_tutorial} type="video/mp4" />
-          </div>
+              this.setState((state, props) => ({
+                tutorial_display: !state.tutorial_display
+              }));
+            }} class="btn btn-sm btn-outline-info">顯示內容</a>
+          </h4>
+          <video className={this.state.tutorial_display ? 'fadeIn' : 'fadeOut'} style={{ width: '100%', maxWidth: '768px' }} controls src={liveabc_tutorial} type="video/mp4" />
         </div>
 
-        <div class="row">
-          <div class="col-12 mt-4">
-            <h4>獲取題號：<button type="button" onClick={() => { this.copyText(code.getProblems_js) }} class="btn btn-sm btn-outline-info m-2">複製</button></h4>
-            <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
-              <code>{code.getProblems_js}</code>
+        <div class="container p-3 mb-5">
+          <div class="row">
+            <div class="col-12 mt-4">
+              <h4>獲取題號：<button type="button" onClick={() => { this.copyText(code.getProblems_js) }} class="btn btn-sm btn-outline-info m-2">複製</button></h4>
+              <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
+                <code>{code.getProblems_js}</code>
+              </div>
+            </div>
+
+            <div class="col-12 mt-4">
+              <h4>修改作答時間：<button type="button" onClick={() => { this.copyText(code.setTime_js(this.state.problem_time)) }} class="btn btn-sm btn-outline-info m-2">複製</button></h4>
+              <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
+                <code>{code.setTime_js(this.state.problem_time)}</code>
+              </div>
+
+              <div class="col-sm-5 p-1 pb-2 mb-3">
+                <h5><span class="badge badge-pill badge-primary">設定資訊</span></h5>
+                <label>作答秒數</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">作答秒數</div>
+                  </div>
+                  <input class="form-control" onChange={(event) => {
+                    event.target.value = parseInt(Math.min(Math.max(event.target.value, 0), 2640));
+                    this.setState((state, props) => ({
+                      problem_time: event.target.value
+                    }));
+
+                  }} type="number" step="1" defaultValue={this.state.problem_time} />
+                  <div class="input-group-append">
+                    <div class="input-group-text">秒</div>
+                  </div>
+                </div>
+                <small>≈&nbsp;約為{(this.state.problem_time / 60).toFixed(2)}分鐘</small>
+              </div>
+
             </div>
           </div>
 
-          <div class="col-12 mt-4">
-            <h4>修改作答時間：<button type="button" onClick={() => { this.copyText(code.setTime_js(this.state.problem_time)) }} class="btn btn-sm btn-outline-info m-2">複製</button></h4>
-            <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
-              <code>{code.setTime_js(this.state.problem_time)}</code>
-            </div>
+          {/* 輸入題號 */}
+          <div className="col-12 mt-3 form-group pl-0 pr-0">
+            <h4>輸入題號：<small className="text-muted">&nbsp;(以,區隔)</small></h4>
+            <textarea onChange={this.problemChanged.bind(this)} style={{ minHeight: '10rem' }} defaultValue={this.state.problem_field} className="form-control" />
 
             <div class="col-sm-5 p-1 pb-2 mb-3">
               <h5><span class="badge badge-pill badge-primary">設定資訊</span></h5>
-              <label>作答秒數</label>
+              <label>模擬錯誤</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <div class="input-group-text">作答秒數</div>
+                  <div class="input-group-text">錯誤率</div>
                 </div>
                 <input class="form-control" onChange={(event) => {
-                  event.target.value = parseInt(Math.min(Math.max(event.target.value, 0), 2640));
+                  event.target.value = Math.min(Math.max(event.target.value, 0), 100)
                   this.setState((state, props) => ({
-                    problem_time: event.target.value
+                    problem_errorRate: event.target.value
                   }));
 
-                }} type="number" step="1" defaultValue={this.state.problem_time} />
+                }} type="number" step="1" defaultValue={this.state.problem_errorRate} />
                 <div class="input-group-append">
-                  <div class="input-group-text">秒</div>
+                  <div class="input-group-text">%</div>
                 </div>
               </div>
-              <small>≈&nbsp;約為{(this.state.problem_time / 60).toFixed(2)}分鐘</small>
             </div>
 
-          </div>
-        </div>
-
-        {/* 輸入題號 */}
-        <div className="col-12 mt-3 form-group pl-0 pr-0">
-          <h4>輸入題號：<small className="text-muted">&nbsp;(以,區隔)</small></h4>
-          <textarea onChange={this.problemChanged.bind(this)} style={{ minHeight: '10rem' }} defaultValue={this.state.problem_field} className="form-control" />
-
-          <div class="col-sm-5 p-1 pb-2 mb-3">
-            <h5><span class="badge badge-pill badge-primary">設定資訊</span></h5>
-            <label>模擬錯誤</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text">錯誤率</div>
-              </div>
-              <input class="form-control" onChange={(event) => {
-                event.target.value = Math.min(Math.max(event.target.value, 0), 100)
-                this.setState((state, props) => ({
-                  problem_errorRate: event.target.value
-                }));
-
-              }} type="number" step="1" defaultValue={this.state.problem_errorRate} />
-              <div class="input-group-append">
-                <div class="input-group-text">%</div>
-              </div>
-            </div>
+            <button type="button" onClick={this.generateProblemAnswer.bind(this)} class="btn btn-lg btn-info">產生解答</button>
           </div>
 
-          <button type="button" onClick={this.generateProblemAnswer.bind(this)} class="btn btn-lg btn-info">產生解答</button>
-        </div>
+          {/* 輸出 */}
+          <div className="mt-4 p-3" data-block="#output">
+            {this.state.answerList}
+          </div>
 
-        {/* 輸出 */}
-        <div className="mt-4 p-3" data-block="#output">
-          {this.state.answerList}
         </div>
-
-      </div>
+      </>
     );
   }
 }
