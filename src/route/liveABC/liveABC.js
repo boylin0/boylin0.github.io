@@ -27,76 +27,88 @@ class LiveABC extends React.Component {
   problemChanged(event) {
     this.setState({ problem_field: event.target.value });
   }
+  /* 
+  
 
+  */
   generateProblemAnswer() {
     let inputProblem = this.state.problem_field.split('\n').join('');
     inputProblem = inputProblem.split(',');
-    let inputProblemCount = inputProblem.length;
 
     let ansDOM = [];
-    let answers = inputProblem.map(problemID => problem[problemID]);
-    /*  */
+
+    let problems = [];
+
+    inputProblem.map(function (problemID, index) {
+      problems.push({ 'problem_id': problemID, 'problem_answer': problem[problemID] });
+    });
+
+    for (let i = 0; i < inputProblem.length * (this.state.problem_errorRate / 100); i++) {
+      const wrong_map = {
+        'A': 'B',
+        'B': 'C',
+        'C': 'A',
+        'D': 'A'
+      }
+      let random_id = Math.floor(Math.random() * inputProblem.length);
+
+      if (problems[random_id].problem_wrong_answer != null)
+        for (let j = 0; j < inputProblem.length; j++) {
+          if (problems[random_id].problem_wrong_answer != null) {
+            random_id = (random_id + 1) % inputProblem.length;
+          }
+        }
+
+      let new_wrong_answer = wrong_map[problems[random_id].problem_answer];
+      problems[random_id].problem_wrong_answer = new_wrong_answer;
+    }
+
+    // Answer Statistics
     ansDOM.push(<div key={0.2} >
       <h5>作答資訊</h5>
-
-      {/*  */}
+      {/* Statistics */}
       <div className="mt-3">
         <h6>[錯誤答案/全部題目]：</h6>
-        {Math.floor(inputProblemCount * (this.state.problem_errorRate / 100))}
+        {Math.floor(inputProblem.length * (this.state.problem_errorRate / 100))}
         /
-        {inputProblemCount}
+        {inputProblem.length}
       </div>
-
-      {/*  */}
+      {/* Auto fill answer */}
       <div className="mt-3">
         <h6>自動填答：
-          <button type="button" onClick={() => { this.copyText(code.autoAnswer_js(answers)) }} className="btn btn-sm btn-outline-info m-1">複製</button>
+          <button type="button" onClick={() => {
+            this.copyText(
+              code.autoAnswer_js(
+                problems.map(problem => problem.problem_wrong_answer != null ? problem.problem_wrong_answer : problem.problem_answer)
+              )
+            );
+          }} className="btn btn-sm btn-outline-info m-1">複製</button>
         </h6>
         <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
           <code>
-            {code.autoAnswer_js(answers)}
+            {
+              code.autoAnswer_js(
+                problems.map(problem => problem.problem_wrong_answer != null ? problem.problem_wrong_answer : problem.problem_answer)
+              )
+            }
           </code>
         </div>
       </div>
     </div>);
 
-    /*  */
+    // Output
     ansDOM.push(<div className="mt-3" key={0.1} ><h5>輸出結果</h5></div>);
+    problems.map(function (problem, i) {
+      ansDOM.push(
+        <div key={i} className="text-danger">
+          {String(i + 1)}.&nbsp;
+          {problem.problem_wrong_answer != null ? problem.problem_wrong_answer : problem.problem_answer}
+          &nbsp;{problem.problem_wrong_answer != null ? <small>(正確答案:{problem.problem_answer ?? '此題不在資料中'})</small> : ''}
+          <small className="ml-2 text-muted">(題號：{(!isNaN(problem.problem_id) && parseFloat(problem.problem_id) % 1 == 0 ? problem.problem_id : '錯誤的題號')})</small>
+        </div>
+      );
+    });
 
-    /*  */
-    let errorMap = inputProblem.slice(0);
-    for (let i = 0; i < inputProblemCount * (this.state.problem_errorRate / 100); i++) {
-      errorMap.splice(Math.floor(Math.random() * errorMap.length), 1);
-    }
-
-    /*  */
-    for (let i = 0; i < inputProblemCount; i++) {
-      let problemID = inputProblem[i];
-      let dom;
-      if (!problem[problemID] == null) {
-
-      } else {
-        if (errorMap.includes(problemID)) {
-          dom =
-            <div key={i} className="text-danger">
-              {String(i + 1)}.&nbsp;
-            {problem[problemID] ?? '此題不在資料中'}
-              <small className="ml-2 text-muted">(題號：{(!isNaN(problemID) && parseFloat(problemID) % 1 == 0 ? problemID : '錯誤的題號')})</small>
-            </div>;
-        } else {
-          dom =
-            <div key={i} className="text-danger">
-              {String(i + 1)}.&nbsp;
-                  {['A', 'B', 'C'][Math.floor(Math.random() * 3)]}
-                  &nbsp;<small>(正確答案:{problem[problemID] ?? '此題不在資料中'})</small>
-              <small className="ml-2 text-muted">(題號：{(!isNaN(problemID) && parseFloat(problemID) % 1 == 0 ? problemID : '錯誤的題號')})</small>
-            </div>;
-        }
-      }
-
-      ansDOM.push(dom);
-      if ((i + 1) % 5 == 0) ansDOM.push(<div key={i + 0.5} className="mt-3" ></div>);
-    }
     this.setState({ answerList: ansDOM }, () => {
       if ($('body,html').scrollTop() + 1 < $('*[data-block="#output"]').offset().top - ($(window).height() / 2)) {
         $('body,html').stop();
@@ -105,8 +117,6 @@ class LiveABC extends React.Component {
         }, { duration: 800 });
       }
     });
-
-
 
   }
 
