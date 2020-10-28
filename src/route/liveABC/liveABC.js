@@ -13,10 +13,12 @@ class LiveABC extends React.Component {
     this.state = {
       problem_db_Count: Object.keys(problem).length,
       tutorial_display: true,
-      problem_time: 2000,
+      problem_time: 60 * 40,
       problem_field: code.sample_problem,
       answerList: [],
       problem_errorRate: 0,
+      examType: 'none',
+      problem_max_time: 0,
     };
   }
 
@@ -49,15 +51,19 @@ class LiveABC extends React.Component {
         'B': ['A', 'C'].sample(),
         'C': ['A', 'B'].sample(),
         'D': ['A', 'B', 'C'].sample()
-      }
+      };
       let random_id = Math.floor(Math.random() * inputProblem.length);
 
-      if (problems[random_id].problem_wrong_answer != null)
+      /* Answer already wrong */
+      if (problems[random_id].problem_wrong_answer != null) {
         for (let j = 0; j < inputProblem.length; j++) {
           if (problems[random_id].problem_wrong_answer != null) {
             random_id = (random_id + 1) % inputProblem.length;
+          } else {
+            break;
           }
         }
+      }
 
       let new_wrong_answer = wrong_map[problems[random_id].problem_answer];
       problems[random_id].problem_wrong_answer = new_wrong_answer;
@@ -104,7 +110,7 @@ class LiveABC extends React.Component {
           {String(i + 1)}.&nbsp;
           {problem.problem_wrong_answer != null ? problem.problem_wrong_answer : problem.problem_answer}
           &nbsp;{problem.problem_wrong_answer != null ? <small>(正確答案:{problem.problem_answer ?? '此題不在資料中'})</small> : ''}
-          <small className="ml-2 text-muted">(題號：{(!isNaN(problem.problem_id) && parseFloat(problem.problem_id) % 1 == 0 ? problem.problem_id : '錯誤的題號')})</small>
+          <small className="ml-2 text-muted">(題號：{(!isNaN(problem.problem_id) && parseFloat(problem.problem_id) % 1 === 0 ? problem.problem_id : '錯誤的題號')})</small>
         </div>
       );
     });
@@ -142,7 +148,7 @@ class LiveABC extends React.Component {
 
 
         <div className="container-sm p-0">
-          <h4>使用範例：
+          <h4 className="pl-3">使用範例：
                 <a onClick={() => {
               this.setState((state, props) => ({
                 tutorial_display: !state.tutorial_display
@@ -162,28 +168,48 @@ class LiveABC extends React.Component {
             </div>
 
             <div className="col-12 mt-4">
-              <h4>修改作答時間：<button type="button" onClick={() => { this.copyText(code.setTime_js(this.state.problem_time)) }} className="btn btn-sm btn-outline-info m-2">複製</button></h4>
+              <h4>修改作答時間：<button type="button" disabled={this.state.examType !== 'none' ? false : true} onClick={() => {
+                this.copyText(code.setTime_js(this.state.problem_time));
+              }} className="btn btn-sm btn-outline-info m-2">複製</button></h4>
               <div className="p-3 rounded-lg" style={{ overflowX: 'scroll', whiteSpace: 'nowrap', backgroundColor: 'rgb(235, 235, 235)' }}>
-                <code>{code.setTime_js(this.state.problem_time)}</code>
+                <code>{this.state.examType !== 'none' ? code.setTime_js(this.state.problem_time) : '請選擇測驗類別'}</code>
               </div>
 
               <div className="col-sm-5 p-1 pb-2 mb-3">
                 <h5><span className="badge badge-pill badge-primary">設定資訊</span></h5>
                 <label>作答秒數</label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <div className="input-group-text">作答秒數</div>
-                  </div>
-                  <input className="form-control" onChange={(event) => {
-                    event.target.value = parseInt(Math.min(Math.max(event.target.value, 0), 2640));
-                    this.setState((state, props) => ({
-                      problem_time: event.target.value
-                    }));
 
-                  }} type="number" step="1" defaultValue={this.state.problem_time} />
-                  <div className="input-group-append">
-                    <div className="input-group-text">秒</div>
-                  </div>
+                <div class="form-group">
+                  測驗類別
+                  <select onChange={(e) => {
+                    this.state.examType = e.target.value;
+                    let pMaxTime = 0;
+                    if (e.target.value == 'listening') {
+                      pMaxTime = 2640;
+                      if (this.state.problem_max_time == 0) this.state.problem_max_time = 2640;
+                    } else if (e.target.value == 'reading') {
+                      pMaxTime = 4440;
+                      if (this.state.problem_max_time == 0) this.state.problem_max_time = 4440;
+                    }
+                    this.setState((state, props) => ({
+                      problem_max_time: pMaxTime,
+                      problem_time: (state.problem_max_time > pMaxTime ? pMaxTime : state.problem_max_time)
+                    }));
+                  }} class="form-control">
+                    <option value="none">未選擇</option>
+                    <option value="listening">聽力 (45分鐘)</option>
+                    <option value="reading">閱讀 (75分鐘)</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+
+                  <input type="range" value={this.state.problem_time / 60} onChange={(e) => {
+                    this.setState((state, props) => ({
+                      problem_time: e.target.value * 60,
+                    }));
+                  }} class="custom-range" min="0" max={this.state.problem_max_time / 60} step="0.1" />
+
                 </div>
                 <small>≈&nbsp;約為{(this.state.problem_time / 60).toFixed(2)}分鐘</small>
               </div>

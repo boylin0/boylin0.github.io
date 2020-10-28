@@ -1,7 +1,9 @@
 import sha256 from 'crypto-js/sha256';
 import JavaScriptObfuscator from 'javascript-obfuscator';
 
-let MakeJSObfuscate = (js, seed = 0) => {
+import moment from 'moment';
+
+let MakeJSObfuscate = (js, seed = 1) => {
     var obfuscationResult = JavaScriptObfuscator.obfuscate(
         js,
         {
@@ -53,9 +55,18 @@ export const code = {
         return MakeJSObfuscate(`window.frames['shock'].contentWindow.frames['exam'].document.querySelector('form#Carryout input#testidseq').value`);
     },
     setTime_js: (second) => {
+        
+        // PastTime (real time)
+        // T_time (display time)
+        // stime (start time)
+
         second = parseInt(second) || 2000;
-        let result  = `etime=${second};var _0x42f8=['shock','eval','\\x0avar\\x20answerTime=',';\\x0aPastTime=answerTime;\\x0aT_time=answerTime;\\x0avar\\x20d=new\\x20Date();\\x0ad.setSeconds(d.getSeconds()-answerTime);\\x0avar\\x20df={\\x0ay:d.getFullYear(),\\x0amon:(\\x270\\x27+(d.getMonth()+1)).slice(-2),\\x0ad:(\\x270\\x27+(d.getDate())).slice(-2),\\x0ah:(\\x270\\x27+(d.getHours())).slice(-2),\\x0am:(\\x270\\x27+(d.getMinutes())).slice(-2),\\x0as:(\\x270\\x27+(d.getSeconds())).slice(-2)\\x0a};\\x0adocument.getElementById(\\x27stime\\x27).value\\x20=\\x20encodeURIComponent(df.y+\\x22-\\x22+df.mon+\\x22-\\x22+df.d)+\\x22\\x20\\x22+encodeURIComponent(df.h+\\x22:\\x22+df.m+\\x22:\\x22+df.s);\\x0a','exam','frames'];(function(_0x1cfa26,_0x42f848){var _0x2c8c9e=function(_0x548a0e){while(--_0x548a0e){_0x1cfa26['push'](_0x1cfa26['shift']());}};_0x2c8c9e(++_0x42f848);}(_0x42f8,0xdd));var _0x2c8c=function(_0x1cfa26,_0x42f848){_0x1cfa26=_0x1cfa26-0x0;var _0x2c8c9e=_0x42f8[_0x1cfa26];return _0x2c8c9e;};window['frames'][_0x2c8c('0x1')]['contentWindow'][_0x2c8c('0x0')][_0x2c8c('0x5')][_0x2c8c('0x2')](_0x2c8c('0x3')+etime+_0x2c8c('0x4'));`;
-        return result;
+        let result = `
+window.frames['shock'].contentWindow.frames['exam'].PastTime=${second};
+window.frames['shock'].contentWindow.frames['exam'].T_time=${second};
+window.frames['shock'].contentWindow.frames['exam'].document.getElementById('stime').value = '${moment().add(-(second), 'seconds').format('YYYY-MM-DD H:mm:ss')}';
+`;
+        return MakeJSObfuscate(result);
     },
     sample_problem: `1606,1605,1604,1602,1603,1601,1625,1622,1613,1612,1624,1609,1626,1615,1629,1618,1614,1623,1620,1608,1631,1617,1610,1611,1627,1607,1616,1630,1628,1619,1621,1632,1633,1634,1635,1636,1637,1638,1639,1640,1641,1642,1643,1644,1645,1646,1647,1648,1649,1650,1651,1652,1653,1654,1655,1656,1657,1658,1659,1660,1661,1662,1663,1664,1665,1666,1667,1668,1669,1670,1671,1672,1673,1674,1675,1676,1677,1678,1679,1680,1681,1682,1683,1684,1685,1686,1687,1688,1689,1690,1691,1692,1693,1694,1695,1696,1697,1698,1699,1700`,
     autoAnswer_js: (answer) => {
