@@ -21,6 +21,10 @@ import {
 
 import Home from './route/home/home';
 
+Array.prototype.sample = function(){
+  return this[Math.floor(Math.random()*this.length)];
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>

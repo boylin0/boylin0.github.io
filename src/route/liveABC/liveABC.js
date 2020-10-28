@@ -45,10 +45,10 @@ class LiveABC extends React.Component {
 
     for (let i = 0; i < inputProblem.length * (this.state.problem_errorRate / 100); i++) {
       const wrong_map = {
-        'A': 'B',
-        'B': 'C',
-        'C': 'A',
-        'D': 'A'
+        'A': ['B', 'C'].sample(),
+        'B': ['A', 'C'].sample(),
+        'C': ['A', 'B'].sample(),
+        'D': ['A', 'B', 'C'].sample()
       }
       let random_id = Math.floor(Math.random() * inputProblem.length);
 
