@@ -13,7 +13,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import fontawesome from '@fortawesome/fontawesome-free/js/all.min.js';
 //import 'animate.css/animate.css'
 
-
 import {
   HashRouter,
   Switch,

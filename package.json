@@ -43,5 +43,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "crypto-js": "^4.0.0",
+    "izitoast": "^1.4.0",
+    "javascript-obfuscator": "^2.6.2"
   }
 }

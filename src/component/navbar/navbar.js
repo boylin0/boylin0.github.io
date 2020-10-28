@@ -16,8 +16,8 @@ class Navbar extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <Link className="text-dark" to="/">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">HOME</a>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#">HOME</a>
                             </li>
                         </Link>
                     </ul>
