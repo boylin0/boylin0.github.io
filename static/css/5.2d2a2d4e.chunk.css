@@ -1,0 +1,2 @@
+.home-card{background-color:#f0f0f0;min-width:50px;min-height:50px;border-radius:1rem;transition:background-color .3s}.home-card img{-webkit-filter:grayscale(100%);filter:grayscale(100%);transition:-webkit-filter .3s;transition:filter .3s;transition:filter .3s,-webkit-filter .3s}.home-card:hover{background-color:#e0e0e0}.home-card:hover img{-webkit-filter:grayscale(0);filter:grayscale(0)}
+/*# sourceMappingURL=5.2d2a2d4e.chunk.css.map */
