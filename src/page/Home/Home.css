@@ -1,0 +1,20 @@
+.home-card {
+    background-color: #F0F0F0;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 1rem;
+    transition: background-color 0.3s;
+}
+
+.home-card img {
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+.home-card:hover {
+    background-color: #E0E0E0
+}
+
+.home-card:hover img {
+    filter: grayscale(0%);
+}

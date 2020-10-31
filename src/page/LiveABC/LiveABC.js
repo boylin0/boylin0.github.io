@@ -183,7 +183,7 @@ class LiveABC extends React.Component {
                 <h5><span className="badge badge-pill badge-primary">設定資訊</span></h5>
                 <label>作答秒數</label>
 
-                <div class="form-group">
+                <div className="form-group">
                   測驗類別
                   <select onChange={(e) => {
                     this.state.examType = e.target.value;
@@ -199,7 +199,7 @@ class LiveABC extends React.Component {
                       problem_max_time: pMaxTime,
                       problem_time: (state.problem_max_time > pMaxTime ? pMaxTime : state.problem_max_time)
                     }));
-                  }} class="form-control">
+                  }} className="form-control">
                     <option value="none">未選擇</option>
                     <option value="listening">聽力 (45分鐘)</option>
                     <option value="reading">閱讀 (75分鐘)</option>
@@ -212,7 +212,7 @@ class LiveABC extends React.Component {
                     this.setState((state, props) => ({
                       problem_time: e.target.value * 60,
                     }));
-                  }} class="custom-range" min="0" max={this.state.problem_max_time / 60} step="0.1" />
+                  }} className="custom-range" min="0" max={this.state.problem_max_time / 60} step="0.1" />
 
                 </div>
                 <small>≈&nbsp;約為{(this.state.problem_time / 60).toFixed(2)}分鐘</small>

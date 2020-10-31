@@ -14,7 +14,7 @@ class Loading extends React.Component {
                     style={{ height: '100vh', minHeight: '100%' }}>
                     
                 </div> */}
-                <div class="d-flex align-content-center flex-wrap" style={{ height: '100vh', minHeight: '100%' }}>
+                <div className="d-flex align-content-center flex-wrap" style={{ height: '100vh', minHeight: '100%' }}>
                     <div className="w-100">
                         <Lottie options={{
                             animationData: loadingAnimation,

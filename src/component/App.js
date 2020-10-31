@@ -29,7 +29,7 @@ class SuspenseFallback extends React.Component {
 class App extends React.Component {
     render() {
         return (
-            <HashRouter>
+            <HashRouter hashType="noslash">
                 <Suspense fallback={<SuspenseFallback />}>
                     <Navbar />
 
