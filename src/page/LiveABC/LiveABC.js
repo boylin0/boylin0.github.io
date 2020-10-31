@@ -1,7 +1,7 @@
 import React from 'react';
 
 import liveabc_tutorial from '../../resource/liveabc-tutorial.mp4'
-import { code, problem } from './liveABC.const'
+import { code, problem } from './LiveABC.const'
 import Clipboard from 'clipboard';
 import $ from 'jquery';
 import iziToast from 'izitoast';
@@ -13,7 +13,7 @@ class LiveABC extends React.Component {
     this.state = {
       problem_db_Count: Object.keys(problem).length,
       tutorial_display: true,
-      problem_time: 60 * 40,
+      problem_time: 60 * 0,
       problem_field: code.sample_problem,
       answerList: [],
       problem_errorRate: 0,
@@ -113,6 +113,10 @@ class LiveABC extends React.Component {
           <small className="ml-2 text-muted">(題號：{(!isNaN(problem.problem_id) && parseFloat(problem.problem_id) % 1 === 0 ? problem.problem_id : '錯誤的題號')})</small>
         </div>
       );
+
+      if (i % 5 == 4) {
+        ansDOM.push(<div key={i + 0.1} className="mt-4" />);
+      }
     });
 
     this.setState({ answerList: ansDOM }, () => {

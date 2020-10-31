@@ -5,14 +5,14 @@
   "homepage": "https://boylin0.github.io/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "animate.css": "^4.1.1",
     "bootstrap": "^4.5.3",
     "clipboard": "^2.0.6",
+    "crypto-js": "^4.0.0",
     "gh-pages": "^3.1.0",
+    "izitoast": "^1.4.0",
+    "javascript-obfuscator": "^2.6.3",
     "jquery": "^3.5.1",
+    "lottie-react-web": "^2.2.2",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
@@ -44,10 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "crypto-js": "^4.0.0",
-    "izitoast": "^1.4.0",
-    "javascript-obfuscator": "^2.6.2"
   }
 }
