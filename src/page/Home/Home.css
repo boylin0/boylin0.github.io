@@ -4,7 +4,7 @@
     min-height: 50px;
     border-radius: 1rem;
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 3px 3px 20px -10px rgba(13,17,33,.25), 0 1px 8px 0 rgba(27,36,72,.16);
+    box-shadow: 3px 3px 20px -10px rgba(13, 17, 33, .25), 0 1px 8px 0 rgba(27, 36, 72, .16);
 }
 
 .home-card img {
@@ -15,7 +15,7 @@
 
 .home-card:hover {
     background-color: #FFF;
-    box-shadow: 3px 3px 20px -10px rgba(13,17,33,.25), 0 1px 2px 0 rgba(27,36,72,.16);
+    box-shadow: 3px 3px 20px -10px rgba(13, 17, 33, .25), 0 1px 2px 0 rgba(27, 36, 72, .16);
 }
 
 .home-card:hover img {

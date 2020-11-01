@@ -8,7 +8,7 @@ import "jquery";
 import 'popper.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import fontawesome from '@fortawesome/fontawesome-free/js/all.min.js';
+import '@fortawesome/fontawesome-free/js/all.min.js';
 
 /* Import */
 import './utils'

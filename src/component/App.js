@@ -33,7 +33,7 @@ class App extends React.Component {
         return (
             <HashRouter hashType="noslash">
                 <Suspense fallback={<SuspenseFallback />}>
-                    <Navbar />
+                    <Navbar defaultRoute="/" />
 
                     <Switch>
                         <Route exact path="/LiveABC">

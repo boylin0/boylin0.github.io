@@ -66,12 +66,12 @@ class Home extends React.Component {
                     <div className="wow fadeIn home-background-text text-white w-100 h-100 p-4" data-wow-duration="3s" data-wow-delay="0.5s">
                         <div className="d-flex justify-content-center h-100">
                             <h1 className="d-block d-sm-block d-md-none font-weight-lighter text-center" style={{ fontSize: '10vw' }}>
-                                <a className="text-white" style={{ textDecoration: 'none' }} href="https://github.com/boylin0"><i className="fab fa-github"></i> BOYLIN0</a>
+                                <a className="text-white hover-text" style={{ textDecoration: 'none' }} href="https://github.com/boylin0"><i className="fab fa-github"></i> BOYLIN0</a>
                                 <br />
                                 Github Pages
                             </h1>
                             <h1 className="d-none d-md-block font-weight-lighter text-center justify-content-center align-self-center" style={{ marginTop: '-20%', fontSize: '5rem' }}>
-                                <a className="text-white" style={{ textDecoration: 'none' }} href="https://github.com/boylin0"><i className="fab fa-github"></i> BOYLIN0</a>
+                                <a className="text-white hover-text" style={{ textDecoration: 'none' }} href="https://github.com/boylin0"><i className="fab fa-github"></i> BOYLIN0</a>
                                 <br />
                                 Github Pages
                             </h1>
