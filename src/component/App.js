@@ -11,6 +11,7 @@ import './App.css'
 
 /* Component */
 import Navbar from './Navbar';
+import Footer from './Footer';
 import Loading from '../page/Loading/Loading';
 import NotFound from '../page/NotFound/NotFound';
 
@@ -41,8 +42,10 @@ class App extends React.Component {
                         <Route exact path="/">
                             <Home />
                         </Route>
-                        <Route component={NotFound}/>
+                        <Route component={NotFound} />
                     </Switch>
+
+                    <Footer />
                 </Suspense>
             </HashRouter>
         );
