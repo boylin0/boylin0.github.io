@@ -2,12 +2,12 @@
   "files": {
     "main.css": "/static/css/main.04878d9f.chunk.css",
     "main.js": "/static/js/main.885db134.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.37a87356.js",
+    "runtime-main.js": "/static/js/runtime-main.13661e6d.js",
     "static/css/2.5939408e.chunk.css": "/static/css/2.5939408e.chunk.css",
     "static/js/2.e66fc7f2.chunk.js": "/static/js/2.e66fc7f2.chunk.js",
     "static/css/3.1f103c4b.chunk.css": "/static/css/3.1f103c4b.chunk.css",
     "static/js/3.f9485dd5.chunk.js": "/static/js/3.f9485dd5.chunk.js",
-    "static/js/4.fbe5b95e.chunk.js": "/static/js/4.fbe5b95e.chunk.js",
+    "static/js/4.5b1e9109.chunk.js": "/static/js/4.5b1e9109.chunk.js",
     "static/css/5.12c0fba4.chunk.css": "/static/css/5.12c0fba4.chunk.css",
     "static/js/5.6853cb64.chunk.js": "/static/js/5.6853cb64.chunk.js",
     "static/css/6.dbb2cba4.chunk.css": "/static/css/6.dbb2cba4.chunk.css",
@@ -19,7 +19,7 @@
     "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4"
   },
   "entrypoints": [
-    "static/js/runtime-main.37a87356.js",
+    "static/js/runtime-main.13661e6d.js",
     "static/css/3.1f103c4b.chunk.css",
     "static/js/3.f9485dd5.chunk.js",
     "static/css/main.04878d9f.chunk.css",
