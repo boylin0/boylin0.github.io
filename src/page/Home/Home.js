@@ -80,14 +80,31 @@ class Home extends React.Component {
 
                 </div>
 
-                <div className="p-5 bg-white">
-
-
-
+                {/* GitHub Stats Card */}
+                <div className="p-3 bg-white">
                     <div className="row">
                         <div className="col-12 p-4 text-muted">
                             <div className="d-flex justify-content-center p-2">
-                                <h3 className="font-weight-light"><i className="fa fa-tools p-1"></i> TOOLBOX</h3>
+                                <h3 className="font-weight-light"><i className="fa fa-compass p-1"></i> GitHub Stats Card</h3>
+                            </div>
+                        </div>
+
+                        <div className="col-12 col-lg-6 text-center text-lg-right mb-3">
+                            <img style={{ maxWidth: '100%', Width: '100%', height: '100%' }} src={"https://github-readme-stats.vercel.app/api?username=boylin0&count_private=true&show_icons=true&icon_color=fff&bg_color=30,e96443,904e95&title_color=fff&text_color=fff"} />
+                        </div>
+
+                        <div className="col-12 col-lg-6 text-center text-lg-left mb-3">
+                            <img style={{ maxWidth: '100%', Width: '100%', height: '100%' }} src={"https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=boylin0&layout=compact&bg_color=30,e96443,904e95&title_color=fff&text_color=fff"} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Toolbox */}
+                <div className="p-5 bg-white">
+                    <div className="row">
+                        <div className="col-12 p-4 text-muted">
+                            <div className="d-flex justify-content-center p-2">
+                                <h3 className="font-weight-light"><i className="fa fa-tools p-1"></i> Toolbox</h3>
                             </div>
                         </div>
 
