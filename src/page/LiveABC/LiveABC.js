@@ -7,7 +7,11 @@ import $ from 'jquery';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.css';
 
+var passIndex = 0;
+var componentHashName = '';
+
 class LiveABC extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,20 +23,43 @@ class LiveABC extends React.Component {
       problem_errorRate: 0,
       examType: 'none',
       problem_max_time: 0,
+      devTools: false
     };
+
   }
 
+
   componentDidMount() {
+    componentHashName = window.location.hash;
+    document.addEventListener("keydown", this.keypressHiddenEnable.bind(this));
+
+  }
+
+  componentWillUnmount() {
+    //document.removeEventListener("keydown", this.keypressHiddenEnable);
+  }
+
+  keypressHiddenEnable(event) {
+    if (window.location.hash != componentHashName) return;
+
+    let pass = "dev".toUpperCase();
+    if (pass.charCodeAt(passIndex) == event.keyCode) {
+      if (pass.length - 1 == passIndex) {
+        this.setState({ devTools: true });
+        document.removeEventListener("keydown", this.keypressHiddenEnable);
+        return;
+      }
+      passIndex++;
+    } else {
+      passIndex = 0;
+    }
 
   }
 
   problemChanged(event) {
     this.setState({ problem_field: event.target.value });
   }
-  /* 
-  
 
-  */
   generateProblemAnswer() {
     let inputProblem = this.state.problem_field.split('\n').join('');
     inputProblem = inputProblem.split(',');
@@ -118,6 +145,71 @@ class LiveABC extends React.Component {
         ansDOM.push(<div key={i + 0.1} className="mt-4" />);
       }
     });
+
+    this.setState({ answerList: ansDOM }, () => {
+      if ($('body,html').scrollTop() + 1 < $('*[data-block="#output"]').offset().top - ($(window).height() / 2)) {
+        $('body,html').stop();
+        $('body,html').animate({
+          scrollTop: $('*[data-block="#output"]').offset().top - ($(window).height() / 2)
+        }, { duration: 800 });
+      }
+    });
+
+  }
+
+  analyzeAnswer() {
+
+    let ansDOM = [];
+    let keyIndex = 0;
+
+    let inputProblem = this.state.problem_field.split('\n').join('');
+
+    let AnswerList = [];
+    let IDList = [];
+    let splittedDOM = inputProblem.split('解答&nbsp;&nbsp;:&nbsp;&nbsp;<span class="ans2">');
+    for (let i = 1; i < splittedDOM.length; i++) {
+      AnswerList.push(splittedDOM[i].split('</span>&nbsp;&nbsp;</td></tr></tbody></table></div></td></tr>')[0]);
+    }
+
+    let splittedDOM_testid = inputProblem
+      .split('<input type="hidden" id="testidseq" name="testidseq" value="')[1]
+      .split('">')[0]
+      .split(',');
+    splittedDOM_testid.forEach((elem, index) => {
+      IDList.push(elem);
+    });
+    console.log(AnswerList);
+    console.log(IDList);
+
+    if (AnswerList.length != IDList.length) {
+      ansDOM.push(<div key={keyIndex++}>題目數量不匹配</div>);
+      ansDOM.push(<div key={keyIndex++}>{AnswerList}</div>);
+      ansDOM.push(<div key={keyIndex++}>{IDList}</div>);
+    } else {
+
+
+      ansDOM.push(<div key={keyIndex++}>data_Q = [{
+        IDList.map((elem, i) => {
+          if (i == IDList.length - 1) {
+            return elem;
+          }
+          return elem + ',';
+        })
+      }];</div>);
+
+      ansDOM.push(<div key={keyIndex++}>data_A = [{
+        AnswerList.map((elem, i) => {
+          if (i == AnswerList.length - 1) {
+            return '\"' + elem + '\"';
+          }
+          return '\"' + elem + '\"' + ',';
+        })
+      }];</div>);
+
+      ansDOM.push(<div key={keyIndex++}>addToMap(data_Q, data_A);</div>);
+
+    }
+
 
     this.setState({ answerList: ansDOM }, () => {
       if ($('body,html').scrollTop() + 1 < $('*[data-block="#output"]').offset().top - ($(window).height() / 2)) {
@@ -247,10 +339,11 @@ class LiveABC extends React.Component {
             </div>
 
             <button type="button" onClick={this.generateProblemAnswer.bind(this)} className="btn btn-lg btn-info">產生解答</button>
+            {this.state.devTools ? <button type="button" onClick={this.analyzeAnswer.bind(this)} className="btn btn-lg btn-info ml-3">解析詳解</button> : null}
           </div>
 
           {/* 輸出 */}
-          <div className="mt-4 p-3" data-block="#output">
+          <div className="mt-4 p-3 text-break" data-block="#output">
             {this.state.answerList}
           </div>
 
