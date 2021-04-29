@@ -70,7 +70,7 @@ class Home extends React.Component {
                                 <br />
                                 Github Pages
                             </h1>
-                            <h1 className="d-none d-md-block font-weight-lighter text-center justify-content-center align-self-center" style={{ marginTop: '-20%', fontSize: '5rem' }}>
+                            <h1 className="d-none d-md-block font-weight-lighter text-center justify-content-center align-self-center" style={{ marginTop: '-20%', fontSize: '5.5rem' }}>
                                 <a className="text-white hover-text" style={{ textDecoration: 'none' }} href="https://github.com/boylin0"><i className="fab fa-github"></i> BOYLIN0</a>
                                 <br />
                                 Github Pages
