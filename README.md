@@ -2,14 +2,14 @@
 
 ## Scripts
 
-### `yarn run start`
+### `npm run start`
 
 Runs the app in the development mode.
 
-### `yarn run build`
+### `npm run build`
 
 Build the website for production to the `build` folder.
 
-### `yarn run deploy`
+### `npm run deploy`
 
 Deploy website to github pages.
