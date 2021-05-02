@@ -14,6 +14,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Loading from '../page/Loading/Loading';
 import NotFound from '../page/NotFound/NotFound';
+import FlappyBird from '../page/FlappyBird/FlappyBird';
 
 const Home = React.lazy(() => import('../page/Home/Home'));
 const LiveABC = React.lazy(() => import('../page/LiveABC/LiveABC'));
@@ -38,14 +39,19 @@ class App extends React.Component {
                         <Route exact path="/LiveABC">
                             <Navbar defaultRoute="/" />
                             <LiveABC />
+                            <Footer />
+                        </Route>
+                        <Route exact path="/FlappyBird">
+                            <FlappyBird />
                         </Route>
                         <Route exact path="/">
                             <Home />
+                            <Footer />
                         </Route>
                         <Route component={NotFound} />
                     </Switch>
 
-                    <Footer />
+                    
                 </Suspense>
             </HashRouter>
         );

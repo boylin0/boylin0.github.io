@@ -85,27 +85,42 @@ class Home extends React.Component {
                 </div>
 
                 {/* Application */}
-                <div className="text-center wow fadeIn">
+                <div className="text-center">
                     <h3 className="m-3 gradient-text" style={{ fontSize: '2.5rem', fontWeight: '900' }}>My Application</h3>
                 </div>
 
-                {/* Application: LiveABC */}
+                {/* Application: FlappyBird */}
                 <section className="row m-0 d-flex align-items-center justify-content-center wow fadeIn">
                     <div className="col-12 col-sm-6 p-3">
-                        <img src={require('../../resource/home-section-liveabc.svg').default}></img>
+                        <img src={require('../../resource/home-section-flappybird.svg').default}></img>
                     </div>
+                    <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
+                        <div className="p-3">
+                            <h2>FlappyBird</h2>
+                            <p>A FlappyBird game created with <a target="_blank" href="https://www.pixijs.com/">pixi.js</a>.</p>
+                        </div>
+                        <Link className="btn btn-outline-primary btn-lg" to={"/FlappyBird"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
+                    </div>
+                </section>
+
+                {/* Application: LiveABC */}
+                <section className="row m-0 d-flex align-items-center justify-content-center wow fadeIn">
                     <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
                         <div className="p-3">
                             <h2>LiveABC自動產生解答工具</h2>
                             <small className="text-muted">(For NPTU only)</small>
                         </div>
-                        <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> 前往</Link>
-
+                        <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
                     </div>
+                    <div className="col-12 col-sm-6 p-3">
+                        <img src={require('../../resource/home-section-liveabc.svg').default}></img>
+                    </div>
+
                 </section>
-                
+
+
                 {/* About Me */}
-                <div className="text-center wow fadeIn">
+                <div className="text-center">
                     <h3 className="m-3 gradient-text" style={{ fontSize: '2.5rem', fontWeight: '900' }}>About Me</h3>
                 </div>
 
