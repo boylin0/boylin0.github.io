@@ -104,16 +104,16 @@ class Home extends React.Component {
                 </section>
 
                 {/* Application: LiveABC */}
-                <section className="row m-0 d-flex align-items-center justify-content-center wow fadeIn">
+                <section className="row m-0 d-flex align-items-center justify-content-center flex-row-reverse wow fadeIn">
+                    <div className="col-12 col-sm-6 p-3">
+                        <img src={require('../../resource/home-section-liveabc.svg').default}></img>
+                    </div>
                     <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
                         <div className="p-3">
                             <h2>LiveABC自動產生解答工具</h2>
                             <small className="text-muted">(For NPTU only)</small>
                         </div>
                         <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
-                    </div>
-                    <div className="col-12 col-sm-6 p-3">
-                        <img src={require('../../resource/home-section-liveabc.svg').default}></img>
                     </div>
 
                 </section>
