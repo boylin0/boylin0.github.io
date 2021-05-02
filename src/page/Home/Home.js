@@ -49,8 +49,8 @@ class Home extends React.Component {
         wow.sync();
     }
 
-    goMyGithub() {
-        window.location.href = 'https://github.com/boylin0';
+    goMyGithubRepo() {
+        window.open('https://github.com/boylin0?tab=repositories', '_blank');
     }
 
     render() {
@@ -86,15 +86,15 @@ class Home extends React.Component {
 
                 {/* Application */}
                 <div className="text-center">
-                    <h3 className="m-3 gradient-text" style={{ fontSize: '2.5rem', fontWeight: '900' }}>My Application</h3>
+                    <h3 className="m-3 gradient-text display-4" style={{ fontWeight: '900' }}>My Online Apps</h3>
                 </div>
 
                 {/* Application: FlappyBird */}
-                <section className="row m-0 d-flex align-items-center justify-content-center wow fadeIn">
-                    <div className="col-12 col-sm-6 p-3">
-                        <img src={require('../../resource/home-section-flappybird.svg').default}></img>
+                <section className="page-section row m-0 d-flex align-items-center justify-content-center">
+                    <div className="col-12 col-sm-6 wow fadeIn">
+                        <img src={require('../../resource/section-flappybird.svg').default}></img>
                     </div>
-                    <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
+                    <div className="col-12 col-sm-6 text-center wow fadeIn" data-wow-delay="0.5s">
                         <div className="p-3">
                             <h2>FlappyBird</h2>
                             <p>A FlappyBird game created with <a target="_blank" href="https://www.pixijs.com/">pixi.js</a>.</p>
@@ -104,9 +104,9 @@ class Home extends React.Component {
                 </section>
 
                 {/* Application: LiveABC */}
-                <section className="row m-0 d-flex align-items-center justify-content-center flex-row-reverse wow fadeIn">
-                    <div className="col-12 col-sm-6 p-3">
-                        <img src={require('../../resource/home-section-liveabc.svg').default}></img>
+                <section className="page-section row m-0 d-flex align-items-center justify-content-center flex-row-reverse">
+                    <div className="col-12 col-sm-6 p-3 wow fadeIn">
+                        <img src={require('../../resource/section-liveabc.svg').default}></img>
                     </div>
                     <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
                         <div className="p-3">
@@ -115,17 +115,36 @@ class Home extends React.Component {
                         </div>
                         <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
                     </div>
-
                 </section>
 
+                <section className="d-flex flex-column text-center mb-5">
+                    <div className="m-3">
+                        <img width="32" src={require('../../resource/section-more.svg').default}></img>
+                    </div>
+                    <div>
+                        <button className="btn btn-primary btn-lg" onClick={this.goMyGithubRepo} style={{ minWidth: '150px' }}><i className="fab fa-github"></i>&nbsp;See More</button>
+                    </div>
+                </section>
 
                 {/* About Me */}
                 <div className="text-center">
-                    <h3 className="m-3 gradient-text" style={{ fontSize: '2.5rem', fontWeight: '900' }}>About Me</h3>
+                    <h3 className="m-3 gradient-text display-4" style={{ fontWeight: '900' }}>About Me</h3>
                 </div>
 
                 {/* About Me: Content */}
                 <section className="p-5 bg-white wow fadeIn">
+                    <div className="row mb-5">
+                        <div className="col-12 col-lg-6 text-center text-lg-right">
+                            <img className="rounded-circle" src="https://avatars.githubusercontent.com/boylin0" style={{ width: '15rem' }}></img>
+                        </div>
+                        <div className="col-12 col-lg-6 text-center text-lg-left d-flex flex-column justify-content-center">
+                            <span className="gradient-name m-2">BOYLIN0</span>
+                            <p className="mt-3">
+                                <a type="button" className="btn btn-outline-info m-2" href="https://github.com/boylin0"><i className="fab fa-github"></i> Github</a>
+                                <a type="button" className="btn btn-outline-info m-2" href="mailto:as20757738@gmail.com"><i className="fas fa-envelope"></i> E-Mail</a>
+                            </p>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-12 col-lg-6 text-center text-lg-right mb-3">
                             <img style={{ maxWidth: '100%', Width: '100%', height: '100%' }} src={"https://github-readme-stats.vercel.app/api?username=boylin0&count_private=true&show_icons=true&icon_color=fff&bg_color=30,e96443,904e95&title_color=fff&text_color=fff"} />

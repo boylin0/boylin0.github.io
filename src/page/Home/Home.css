@@ -47,7 +47,17 @@
             -webkit-text-fill-color: transparent;
 }
 
-section {
+.gradient-name {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: -webkit-linear-gradient(
+        45deg
+        , #2cc4d8 -80%, #8179d8 );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+}
+
+.page-section {
     min-height: 580px;
     height: 100vh;
 }
