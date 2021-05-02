@@ -1,38 +1,40 @@
 const PIXI = require('pixi.js');
 const Events = require('nom-events');
 
-function keyDownListener(event) {
-  if (!keyboard.keyStates.get(event.code)) {
-    keyboard.keyStates.set(event.code, event);
-    keyboard.events.call('pressed', event.code, event);
-    keyboard.events.call('pressed_' + event.code, event.code, event);
-  }
-}
-
-function keyUpListener(event) {
-  event = keyboard.keyStates.get(event.code);
-  if (event) {
-    //keyboard.keyStates.set(event.code, event);
-    event.wasReleased = true;
-    keyboard.events.call('released', event.code, event);
-    keyboard.events.call('released_' + event.code, event.code, event);
-  }
-}
-
 class Keyboard {
   constructor() {
     this.keyStates = new Map();
     this.events = new Events();
+    this._keyDownListener = this._keyDownListener.bind(this);
+    this._keyUpListener = this._keyUpListener.bind(this);
+  }
+
+  _keyDownListener(event) {
+    if (!this.keyStates.get(event.code)) {
+      this.keyStates.set(event.code, event);
+      this.events.call('pressed', event.code, event);
+      this.events.call('pressed_' + event.code, event.code, event);
+    }
+  }
+  
+  _keyUpListener(event) {
+    event = this.keyStates.get(event.code);
+    if (event) {
+      //this.keyStates.set(event.code, event);
+      event.wasReleased = true;
+      this.events.call('released', event.code, event);
+      this.events.call('released_' + event.code, event.code, event);
+    }
   }
 
   init() {
-    window.addEventListener("keydown", keyDownListener, false);
-    window.addEventListener("keyup", keyUpListener, false);
+    window.addEventListener("keydown", this._keyDownListener, false);
+    window.addEventListener("keyup", this._keyUpListener, false);
   }
 
   destroy() {
-    window.removeEventListener("keydown", keyDownListener, false);
-    window.removeEventListener("keyup", keyUpListener, false);
+    window.removeEventListener("keydown", this._keyDownListener, false);
+    window.removeEventListener("keyup", this._keyUpListener, false);
   }
 
   clear() {
@@ -49,8 +51,8 @@ class Keyboard {
         this.keyStates.delete(keyCode);
       }
 
-      keyboard.events.call('down', keyCode, event);
-      keyboard.events.call('down_' + keyCode, keyCode, event);
+      this.events.call('down', keyCode, event);
+      this.events.call('down_' + keyCode, keyCode, event);
     });
   }
 
@@ -100,7 +102,6 @@ class Keyboard {
   }
 }
 
-const keyboard = new Keyboard();
 
 /*keyboard.events.on('pressed', null, (keyCode, event) => {
   console.log('dd', keyCode);
@@ -111,4 +112,4 @@ setInterval(() => {
   keyboard.update();
 }, 0);*/
 
-module.exports = keyboard;
+export default Keyboard;

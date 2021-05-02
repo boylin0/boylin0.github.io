@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import 'wowjs/css/libs/animate.css';
 
 import * as PIXI from 'pixi.js'
-import * as Keyboard from './Keyboard';
-import * as Mouse from './Mouse';
+import PixiKeyboard from './Keyboard';
+import PixiMouse from './Mouse';
+
+let Keyboard = new PixiKeyboard();
+let Mouse = new PixiMouse();
 
 class Collision {
     hitTestRect(spriteA, spriteB) {
@@ -230,7 +233,7 @@ class GameScene {
 
         /* User Input */
         if (!this.isGameover) {
-            if (Mouse.isButtonPressed(Mouse.Button.LEFT) || Keyboard.isKeyPressed('Space')) {
+            if (Mouse.isButtonPressed(0) || Keyboard.isKeyPressed('Space')) {
                 if (!this.bird.isDie()) this.bird.Jump();
             }
         }
@@ -248,7 +251,7 @@ class GameScene {
             }
 
             this.gameoverText.visible = true;
-            if (Mouse.isButtonPressed(Mouse.Button.LEFT) || Keyboard.isKeyPressed('Space')) {
+            if (Mouse.isButtonPressed(0) || Keyboard.isKeyPressed('Space')) {
                 this.setup();
             }
         }
