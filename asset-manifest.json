@@ -1,32 +1,33 @@
 {
   "files": {
     "main.css": "/static/css/main.04878d9f.chunk.css",
-    "main.js": "/static/js/main.22784053.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.83847c8b.js",
+    "main.js": "/static/js/main.e984f278.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.cb1e1243.js",
     "static/css/2.5939408e.chunk.css": "/static/css/2.5939408e.chunk.css",
-    "static/js/2.80b2f30c.chunk.js": "/static/js/2.80b2f30c.chunk.js",
+    "static/js/2.0fa0959e.chunk.js": "/static/js/2.0fa0959e.chunk.js",
     "static/css/3.ce3b63bd.chunk.css": "/static/css/3.ce3b63bd.chunk.css",
     "static/js/3.42445f8b.chunk.js": "/static/js/3.42445f8b.chunk.js",
-    "static/js/4.b1409417.chunk.js": "/static/js/4.b1409417.chunk.js",
-    "static/css/5.e12dbe1f.chunk.css": "/static/css/5.e12dbe1f.chunk.css",
-    "static/js/5.c9d9006a.chunk.js": "/static/js/5.c9d9006a.chunk.js",
-    "static/js/6.4269e39e.chunk.js": "/static/js/6.4269e39e.chunk.js",
+    "static/js/4.a55f2f51.chunk.js": "/static/js/4.a55f2f51.chunk.js",
+    "static/css/5.ddd1e0ff.chunk.css": "/static/css/5.ddd1e0ff.chunk.css",
+    "static/js/5.56522951.chunk.js": "/static/js/5.56522951.chunk.js",
+    "static/js/6.febe959d.chunk.js": "/static/js/6.febe959d.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.80b2f30c.chunk.js.LICENSE.txt": "/static/js/2.80b2f30c.chunk.js.LICENSE.txt",
+    "static/js/2.0fa0959e.chunk.js.LICENSE.txt": "/static/js/2.0fa0959e.chunk.js.LICENSE.txt",
     "static/js/3.42445f8b.chunk.js.LICENSE.txt": "/static/js/3.42445f8b.chunk.js.LICENSE.txt",
     "static/media/bird.png": "/static/media/bird.ef1c2c77.png",
     "static/media/flappybird-title.png": "/static/media/flappybird-title.cda809c0.png",
     "static/media/gameover.png": "/static/media/gameover.efd1e81b.png",
-    "static/media/home-section-flappybird.svg": "/static/media/home-section-flappybird.8c039d10.svg",
-    "static/media/home-section-liveabc.svg": "/static/media/home-section-liveabc.691b6bd7.svg",
     "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4",
-    "static/media/pipe.png": "/static/media/pipe.01fa9585.png"
+    "static/media/pipe.png": "/static/media/pipe.01fa9585.png",
+    "static/media/section-flappybird.svg": "/static/media/section-flappybird.f1d29afa.svg",
+    "static/media/section-liveabc.svg": "/static/media/section-liveabc.641bf318.svg",
+    "static/media/section-more.svg": "/static/media/section-more.e977576b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.83847c8b.js",
+    "static/js/runtime-main.cb1e1243.js",
     "static/css/3.ce3b63bd.chunk.css",
     "static/js/3.42445f8b.chunk.js",
     "static/css/main.04878d9f.chunk.css",
-    "static/js/main.22784053.chunk.js"
+    "static/js/main.e984f278.chunk.js"
   ]
 }
