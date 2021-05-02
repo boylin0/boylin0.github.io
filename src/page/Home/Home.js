@@ -43,14 +43,45 @@ function Card(props) {
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.lastScroll = 0;
     }
 
     componentDidMount() {
         wow.sync();
+        window.addEventListener('scroll', this.fullPageMagnet);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.fullPageMagnet);
     }
 
     goMyGithubRepo() {
         window.open('https://github.com/boylin0?tab=repositories', '_blank');
+    }
+
+    fullPageMagnet() {
+        this.lastScroll = new Date().getTime();
+        if (typeof this._magnetDelay !== 'undefined') clearTimeout(this._magnetDelay);
+        this._magnetDelay = setTimeout(() => {
+            let allSections = document.querySelectorAll('.page-section');
+            for (let i = 0; i < allSections.length; i++) {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                let topInRange = scrollTop > allSections[i].offsetTop - (allSections[i].offsetHeight / 2);
+                let bottomInRange = scrollTop < allSections[i].offsetTop + (allSections[i].offsetHeight / 2);
+                if (i == 0) {
+                    topInRange = scrollTop > allSections[i].offsetTop - 50;
+                } 
+                if (i == allSections.length - 1) {
+                    bottomInRange = scrollTop < allSections[i].offsetTop + (allSections[i].offsetHeight / 3);
+                } 
+
+                if (topInRange && bottomInRange) {
+                    window.scrollTo({ top: allSections[i].offsetTop, behavior: 'smooth' });
+                    break;
+                }
+            }
+        }, 100);
+
     }
 
     render() {
@@ -90,7 +121,7 @@ class Home extends React.Component {
                 </div>
 
                 {/* Application: FlappyBird */}
-                <section className="page-section row m-0 d-flex align-items-center justify-content-center">
+                <section className="page-section row m-0 p-4 d-flex align-items-center justify-content-center">
                     <div className="col-12 col-sm-6 wow fadeIn">
                         <img src={require('../../resource/section-flappybird.svg').default}></img>
                     </div>
@@ -104,7 +135,7 @@ class Home extends React.Component {
                 </section>
 
                 {/* Application: LiveABC */}
-                <section className="page-section row m-0 d-flex align-items-center justify-content-center flex-row-reverse">
+                <section className="page-section row m-0 p-4 d-flex align-items-center justify-content-center flex-row-reverse">
                     <div className="col-12 col-sm-6 p-3 wow fadeIn">
                         <img src={require('../../resource/section-liveabc.svg').default}></img>
                     </div>
@@ -122,7 +153,7 @@ class Home extends React.Component {
                         <img width="32" src={require('../../resource/section-more.svg').default}></img>
                     </div>
                     <div>
-                        <button className="btn btn-primary btn-lg" onClick={this.goMyGithubRepo} style={{ minWidth: '150px' }}><i className="fab fa-github"></i>&nbsp;See More</button>
+                        <button className="btn btn-outline-primary btn-lg" onClick={this.goMyGithubRepo} style={{ minWidth: '20rem' }}><i className="fab fa-github"></i>&nbsp;See More</button>
                     </div>
                 </section>
 
