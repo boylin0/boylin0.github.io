@@ -1,29 +1,32 @@
 {
   "files": {
     "main.css": "/static/css/main.04878d9f.chunk.css",
-    "main.js": "/static/js/main.cdedb02f.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.7d297292.js",
+    "main.js": "/static/js/main.22784053.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.64242198.js",
     "static/css/2.5939408e.chunk.css": "/static/css/2.5939408e.chunk.css",
-    "static/js/2.e8018d79.chunk.js": "/static/js/2.e8018d79.chunk.js",
-    "static/css/3.1f103c4b.chunk.css": "/static/css/3.1f103c4b.chunk.css",
-    "static/js/3.f9485dd5.chunk.js": "/static/js/3.f9485dd5.chunk.js",
-    "static/js/4.d9e4bc94.chunk.js": "/static/js/4.d9e4bc94.chunk.js",
+    "static/js/2.80b2f30c.chunk.js": "/static/js/2.80b2f30c.chunk.js",
+    "static/css/3.ce3b63bd.chunk.css": "/static/css/3.ce3b63bd.chunk.css",
+    "static/js/3.42445f8b.chunk.js": "/static/js/3.42445f8b.chunk.js",
+    "static/js/4.b1409417.chunk.js": "/static/js/4.b1409417.chunk.js",
     "static/css/5.e12dbe1f.chunk.css": "/static/css/5.e12dbe1f.chunk.css",
-    "static/js/5.f589b9db.chunk.js": "/static/js/5.f589b9db.chunk.js",
-    "static/css/6.dbb2cba4.chunk.css": "/static/css/6.dbb2cba4.chunk.css",
-    "static/js/6.5fc71752.chunk.js": "/static/js/6.5fc71752.chunk.js",
-    "static/js/7.3025344e.chunk.js": "/static/js/7.3025344e.chunk.js",
+    "static/js/5.c28c3a63.chunk.js": "/static/js/5.c28c3a63.chunk.js",
+    "static/js/6.4269e39e.chunk.js": "/static/js/6.4269e39e.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.e8018d79.chunk.js.LICENSE.txt": "/static/js/2.e8018d79.chunk.js.LICENSE.txt",
-    "static/js/3.f9485dd5.chunk.js.LICENSE.txt": "/static/js/3.f9485dd5.chunk.js.LICENSE.txt",
+    "static/js/2.80b2f30c.chunk.js.LICENSE.txt": "/static/js/2.80b2f30c.chunk.js.LICENSE.txt",
+    "static/js/3.42445f8b.chunk.js.LICENSE.txt": "/static/js/3.42445f8b.chunk.js.LICENSE.txt",
+    "static/media/bird.png": "/static/media/bird.ef1c2c77.png",
+    "static/media/flappybird-title.png": "/static/media/flappybird-title.cda809c0.png",
+    "static/media/gameover.png": "/static/media/gameover.efd1e81b.png",
+    "static/media/home-section-flappybird.svg": "/static/media/home-section-flappybird.8c039d10.svg",
     "static/media/home-section-liveabc.svg": "/static/media/home-section-liveabc.691b6bd7.svg",
-    "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4"
+    "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4",
+    "static/media/pipe.png": "/static/media/pipe.01fa9585.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.7d297292.js",
-    "static/css/3.1f103c4b.chunk.css",
-    "static/js/3.f9485dd5.chunk.js",
+    "static/js/runtime-main.64242198.js",
+    "static/css/3.ce3b63bd.chunk.css",
+    "static/js/3.42445f8b.chunk.js",
     "static/css/main.04878d9f.chunk.css",
-    "static/js/main.cdedb02f.chunk.js"
+    "static/js/main.22784053.chunk.js"
   ]
 }
