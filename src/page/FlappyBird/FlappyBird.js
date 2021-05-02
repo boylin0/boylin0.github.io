@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import 'wowjs/css/libs/animate.css';
 
 import * as PIXI from 'pixi.js'
-import * as Keyboard from 'pixi.js-keyboard';
-import * as Mouse from 'pixi.js-mouse';
+import * as Keyboard from './Keyboard';
+import * as Mouse from './Mouse';
 
 class Collision {
     hitTestRect(spriteA, spriteB) {
@@ -119,7 +119,7 @@ class Pipe {
 
         this.sprite.position.x = this.position.x;
         this.sprite.position.y = this.position.y;
-        
+
     }
     destroy() {
         this.sprite.destroy();
@@ -320,9 +320,13 @@ class FlappyBird extends React.Component {
 
     componentDidMount() {
         this.gameScene = new GameScene(1280, 720, document.getElementById('GameView'));
+        Keyboard.init();
+        Mouse.init();
     }
 
     componentWillUnmount() {
+        Keyboard.destroy();
+        Mouse.destroy();
         this.gameScene.destroy();
     }
 
