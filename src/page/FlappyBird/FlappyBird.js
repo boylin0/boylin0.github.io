@@ -10,6 +10,10 @@ import PixiMouse from './Mouse';
 let Keyboard = new PixiKeyboard();
 let Mouse = new PixiMouse();
 
+function mapValue(x, in_min, in_max, out_min, out_max) {
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 class Collision {
     hitTestRect(spriteA, spriteB) {
         var ab = spriteA.getBounds();
@@ -41,6 +45,11 @@ class Bird extends Collision {
 
     update(delta) {
 
+        // Bird rotating based on speed
+        let speedRate = Math.max(Math.min(this.speed.y, 45), -45);
+        this.sprite.rotation = mapValue(speedRate, 45, -45, (3.14 / 2), -(3.14 / 2));
+
+        // Speed Y
         if (this.sprite.position.y + this.speed.y < 0) {
             this.speed.y = 0.0;
             this.position.y = 0;
@@ -48,6 +57,7 @@ class Bird extends Collision {
             this.position.y += this.speed.y * delta;
         }
 
+        // Down Gravity
         if (this.sprite.position.y < 768) {
             this.speed.y += 0.4 * delta;
         } else {
@@ -322,6 +332,7 @@ class FlappyBird extends React.Component {
     }
 
     componentDidMount() {
+        document.title = "FlappyBird";
         this.gameScene = new GameScene(1280, 720, document.getElementById('GameView'));
         Keyboard.init();
         Mouse.init();
