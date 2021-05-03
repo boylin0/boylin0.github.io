@@ -122,33 +122,37 @@ class Home extends React.Component {
                 </div>
 
                 {/* Application: FlappyBird */}
-                <section className="page-section row m-0 p-4 d-flex align-items-center justify-content-center">
-                    <div className="col-12 col-sm-6 wow fadeIn">
-                        <img src={require('../../resource/section-flappybird.svg').default}></img>
-                    </div>
-                    <div className="col-12 col-sm-6 text-center wow fadeIn" data-wow-delay="0.5s">
-                        <div className="p-3">
-                            <h2>FlappyBird</h2>
-                            <p>A FlappyBird game created with <a target="_blank" href="https://www.pixijs.com/">pixi.js</a>.</p>
+                <section className="container">
+                    <div className="page-section row m-0 p-4 d-flex align-items-center justify-content-center">
+                        <div className="col-12 col-md-6 wow fadeIn">
+                            <img src={require('../../resource/section-flappybird.svg').default}></img>
                         </div>
-                        <Link className="btn btn-outline-primary btn-lg" to={"/FlappyBird"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
+                        <div className="col-12 col-md-6 text-center wow fadeIn" data-wow-delay="0.5s">
+                            <div className="p-3">
+                                <h2>FlappyBird</h2>
+                                <p>A FlappyBird game created with <a target="_blank" href="https://www.pixijs.com/">pixi.js</a>.</p>
+                            </div>
+                            <Link className="btn btn-outline-primary btn-lg" to={"/FlappyBird"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
+                        </div>
                     </div>
                 </section>
 
                 {/* Application: LiveABC */}
-                <section className="page-section row m-0 p-4 d-flex align-items-center justify-content-center flex-row-reverse">
-                    <div className="col-12 col-sm-6 p-3 wow fadeIn">
-                        <img src={require('../../resource/section-liveabc.svg').default}></img>
-                    </div>
-                    <div className="col-12 col-sm-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
-                        <div className="p-3">
-                            <h2>LiveABC自動產生解答工具</h2>
-                            <small className="text-muted">(For NPTU only)</small>
+                <section className="container">
+                    <div className="page-section row m-0 p-4 d-flex align-items-center justify-content-center flex-row-reverse">
+                        <div className="col-12 col-md-6 p-3 wow fadeIn">
+                            <img src={require('../../resource/section-liveabc.svg').default}></img>
                         </div>
-                        <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
+                        <div className="col-12 col-md-6 p-3 text-center wow fadeIn" data-wow-delay="0.5s">
+                            <div className="p-3">
+                                <h2>LiveABC自動產生解答工具</h2>
+                                <small className="text-muted">(For NPTU only)</small>
+                            </div>
+                            <Link className="btn btn-outline-primary btn-lg" to={"/LiveABC"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-right"></i> GO</Link>
+                        </div>
                     </div>
                 </section>
-
+                
                 <section className="d-flex flex-column text-center mb-5">
                     <div className="m-3">
                         <img width="32" src={require('../../resource/section-more.svg').default}></img>
