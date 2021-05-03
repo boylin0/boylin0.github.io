@@ -25,18 +25,18 @@ class LiveABC extends React.Component {
       problem_max_time: 0,
       devTools: false
     };
-
+    this.keypressHiddenEnable = this.keypressHiddenEnable.bind(this);
   }
 
 
   componentDidMount() {
     componentHashName = window.location.hash;
-    document.addEventListener("keydown", this.keypressHiddenEnable.bind(this));
+    document.addEventListener("keydown", this.keypressHiddenEnable);
 
   }
 
   componentWillUnmount() {
-    //document.removeEventListener("keydown", this.keypressHiddenEnable);
+    document.removeEventListener("keydown", this.keypressHiddenEnable);
   }
 
   keypressHiddenEnable(event) {
@@ -173,8 +173,13 @@ class LiveABC extends React.Component {
 
     let splittedDOM_testid = inputProblem
       .split('<input type="hidden" id="testidseq" name="testidseq" value="')[1]
-      .split('">')[0]
-      .split(',');
+      ?.split('">')[0]
+      ?.split(',');
+
+    if (splittedDOM_testid == null) {
+      return;
+    }
+
     splittedDOM_testid.forEach((elem, index) => {
       IDList.push(elem);
     });
