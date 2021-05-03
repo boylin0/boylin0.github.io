@@ -30,6 +30,7 @@ class LiveABC extends React.Component {
 
 
   componentDidMount() {
+    document.title = "LiveABC Tool"
     componentHashName = window.location.hash;
     document.addEventListener("keydown", this.keypressHiddenEnable);
 

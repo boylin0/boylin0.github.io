@@ -47,6 +47,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+        document.title = `BOYLIN0's Github Pages`;
         wow.sync();
         window.addEventListener('scroll', this.fullPageMagnet);
     }
@@ -70,10 +71,10 @@ class Home extends React.Component {
                 let bottomInRange = scrollTop < allSections[i].offsetTop + (allSections[i].offsetHeight / 2);
                 if (i == 0) {
                     topInRange = scrollTop > allSections[i].offsetTop - 50;
-                } 
+                }
                 if (i == allSections.length - 1) {
                     bottomInRange = scrollTop < allSections[i].offsetTop + (allSections[i].offsetHeight / 3);
-                } 
+                }
 
                 if (topInRange && bottomInRange) {
                     window.scrollTo({ top: allSections[i].offsetTop, behavior: 'smooth' });

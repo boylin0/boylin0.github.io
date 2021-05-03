@@ -7,6 +7,11 @@ import Lottie from 'lottie-react-web';
 import loadingAnimation from '../../resource/lottie-animation/loading.json'
 
 class Loading extends React.Component {
+
+    componentDidMount(){
+        document.title = 'Loading...';
+    }
+
     render() {
         return (
             <React.Fragment>
