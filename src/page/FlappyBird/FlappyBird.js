@@ -6,12 +6,29 @@ import 'wowjs/css/libs/animate.css';
 import * as PIXI from 'pixi.js'
 import PixiKeyboard from './Keyboard';
 import PixiMouse from './Mouse';
+import { goFullscreenMode, exitFullscreenMode } from '../../utils';
 
 let Keyboard = new PixiKeyboard();
 let Mouse = new PixiMouse();
+let gameScene = null;
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function mapValue(x, in_min, in_max, out_min, out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+function toggleFullscreen() {
+    if (!window.screenTop && !window.screenY) {
+        exitFullscreenMode();
+    } else {
+        goFullscreenMode(document.getElementById('GameView'));
+    }
+
 }
 
 class Collision {
@@ -19,6 +36,45 @@ class Collision {
         var ab = spriteA.getBounds();
         var bb = spriteB.getBounds();
         return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+    }
+}
+
+class Button {
+    constructor(texture) {
+        this.sprite = new PIXI.Sprite(texture);
+
+        let resizeRatio = (70 / this.sprite.width);
+        this.sprite.width = this.sprite.width * resizeRatio;
+        this.sprite.height = this.sprite.height * resizeRatio;
+
+        this.sprite.anchor.x = 0.5;
+        this.sprite.anchor.y = 0.5;
+        this.position = {
+            x: 0,
+            y: 0,
+        }
+    }
+    setPosition(x, y) {
+        this.position.x = x;
+        this.position.y = y;
+        this.sprite.position.x = this.position.x;
+        this.sprite.position.y = this.position.y;
+    }
+    update(delta) {
+        this.sprite.position.x = this.position.x;
+        this.sprite.position.y = this.position.y;
+    }
+    isClick() {
+        if (this.sprite.visible == false) return false;
+        let bound = this.sprite.getBounds();
+        if (Mouse.isButtonPressed('touchtap') || Mouse.isButtonPressed(0)) {
+            return (
+                Mouse.getPosX() < bound.x + bound.width &&
+                Mouse.getPosX() > bound.x &&
+                Mouse.getPosY() < bound.y + bound.height &&
+                Mouse.getPosY() > bound.y);
+        }
+        return false;
     }
 }
 
@@ -58,7 +114,7 @@ class Bird extends Collision {
         }
 
         // Down Gravity
-        if (this.sprite.position.y < 768) {
+        if (this.sprite.position.y < gameScene.height) {
             this.speed.y += 0.4 * delta;
         } else {
             this.speed.y = 0;
@@ -81,7 +137,7 @@ class Bird extends Collision {
     }
 
     isDie() {
-        return (this.sprite.position.y >= 768);
+        return (this.sprite.position.y >= gameScene.height);
     }
 
     Jump() {
@@ -141,19 +197,21 @@ class Pipe {
 
 class GameScene {
 
-    constructor(width, height, canvas) {
+    constructor(canvas) {
 
-        this.app = new PIXI.Application({ width: width, height: height, backgroundColor: 0x9acefe, view: canvas });
+        this.app = new PIXI.Application({ resizeTo: window, backgroundColor: 0x9acefe, view: canvas });
         this.app.loader
             .add('bird', require('./media/bird.png').default)
             .add('pipe', require('./media/pipe.png').default)
             .add('gameover', require('./media/gameover.png').default)
             .add('flappybirdTitle', require('./media/flappybird-title.png').default)
+            .add('buttonRestart', require('./media/button-restart.png').default)
+            .add('buttonFullscreen', require('./media/button-fullscreen.png').default)
             .load((loader, resources) => {
 
                 let textStyle = new PIXI.TextStyle({
                     fontFamily: 'Arial Black',
-                    fontSize: 24,
+                    fontSize: 28,
                     fill: '#fff',
                     align: 'center',
                     stroke: "black",
@@ -173,11 +231,6 @@ class GameScene {
                 this.gameover.y = this.app.renderer.height / 2;
                 this.gameover.anchor.x = 0.5;
                 this.gameover.anchor.y = 0.8;
-                this.gameoverText = new PIXI.Text('PRESS SPACE TO START', textStyle);
-                this.gameoverText.anchor.x = 0.5;
-                this.gameoverText.x = this.app.renderer.width / 2;
-                this.gameoverText.y = this.gameover.getBounds().y + this.gameover.getBounds().height + 30;
-                this.gameUI.addChild(this.gameoverText);
 
                 this.scoreTexture = new PIXI.Text('Score: 0', textStyle);
                 this.gameUI.addChild(this.scoreTexture);
@@ -192,7 +245,6 @@ class GameScene {
                 this.gameTitle = new PIXI.Sprite(resources.flappybirdTitle.texture);
                 this.gameTitle.width = this.gameTitle.width * 0.7;
                 this.gameTitle.height = this.gameTitle.height * 0.7;
-
                 this.gameTitle.x = this.app.renderer.width / 2;
                 this.gameTitle.y = this.app.renderer.height / 2;
                 this.gameTitle.anchor.x = 0.5;
@@ -207,6 +259,16 @@ class GameScene {
                 this.bird.sprite.visible = false;
                 this.isGameover = true;
 
+                this.restartButton = new Button(resources.buttonRestart.texture);
+                this.gameUI.addChild(this.restartButton.sprite);
+
+                this.fullScreenButton = new Button(resources.buttonFullscreen.texture);
+                this.gameUI.addChild(this.fullScreenButton.sprite);
+
+                this._resizeScene();
+
+                //goFullscreenMode(document.getElementById('GameView'));
+
             });
 
         /* Scene variable */
@@ -214,15 +276,52 @@ class GameScene {
         this.lastAddPipeTime = 0;
         this.isGameover = false;
         this.score = 0;
+        this.width = this.app.renderer.width;
+        this.height = this.app.renderer.height;
+        this._resizeScene = this._resizeScene.bind(this);
+        window.addEventListener('resize', this._resizeScene);
+
+        document.addEventListener('fullscreenchange', this._resizeScene, false);
+        document.addEventListener('mozfullscreenchange', this._resizeScene, false);
+        document.addEventListener('MSFullscreenChange', this._resizeScene, false);
+        document.addEventListener('webkitfullscreenchange', this._resizeScene, false);
+
+    }
+
+    _resizeScene() {
+        let t = this;
+        setTimeout(function () {
+            if (typeof t.app?.renderer?.width === 'undefined') return;
+            t.width = t.app.renderer.width;
+            t.height = t.app.renderer.height;
+            t.scoreTexture.position.x = 10;
+            t.scoreTexture.position.y = 10;
+            t.gameTitle.x = t.app.renderer.width / 2;
+            t.gameTitle.y = t.app.renderer.height / 2;
+            t.gameover.x = t.app.renderer.width / 2;
+            t.gameover.y = t.app.renderer.height / 2;
+
+            let ratio = Math.min(t.width / t.gameover.width, 1);
+            t.gameover.width = t.gameover.width * ratio;
+            t.gameover.height = t.gameover.height * ratio;
+
+            ratio = Math.min((t.width) / t.gameTitle.width, 1);
+            t.gameTitle.width = t.gameTitle.width * ratio ;
+            t.gameTitle.height = t.gameTitle.height * ratio ;
+
+            
+            t.restartButton.setPosition(t.width / 2 + 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
+            t.fullScreenButton.setPosition(t.width / 2 - 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
+        }, 50);
+
     }
 
     setup() {
         this.gameTitle.visible = false;
-        this.bird.setPosition(150, this.app.renderer.height / 3);
+        this.bird.setPosition(Math.min(this.width / 8, 200), this.app.renderer.height / 3);
         this.bird.speed.y = -5.0;
         this.bird.sprite.visible = true;
         this.gameover.visible = false;
-        this.gameoverText.visible = false;
         this.pipes.forEach((val) => {
             val.pipeUp.destroy();
             val.pipeBottom.destroy();
@@ -230,6 +329,8 @@ class GameScene {
         this.pipes = [];
         this.isGameover = false;
         this.score = 0;
+        this.restartButton.sprite.visible = false;
+        this.fullScreenButton.sprite.visible = false;
     }
 
     gameLogicUpdate(delta) {
@@ -243,9 +344,18 @@ class GameScene {
 
         /* User Input */
         if (!this.isGameover) {
-            if (Mouse.isButtonPressed(0) || Keyboard.isKeyPressed('Space')) {
+            if (Mouse.isButtonPressed('touchtap') || Mouse.isButtonPressed(0) || Keyboard.isKeyPressed('Space')) {
                 if (!this.bird.isDie()) this.bird.Jump();
             }
+        }
+
+        /* UI */
+        if (this.restartButton.isClick()) {
+            this.setup();
+        }
+
+        if (this.fullScreenButton.isClick()) {
+            toggleFullscreen();
         }
 
         /* Check bird is dead */
@@ -256,19 +366,19 @@ class GameScene {
         /* Display gameover */
         if (this.isGameover == true) {
 
+            // Display game title
             if (this.gameTitle.visible == false) {
                 this.gameover.visible = true;
             }
 
-            this.gameoverText.visible = true;
-            if (Mouse.isButtonPressed(0) || Keyboard.isKeyPressed('Space')) {
-                this.setup();
-            }
+            // Display play options
+            this.restartButton.sprite.visible = true;
+            this.fullScreenButton.sprite.visible = true;
         }
 
         /* Pipe Generator */
         if (!this.isGameover && this.lastAddPipeTime > 100) {
-            let pipePosition = Math.floor(Math.random() * (400 - 80) + 80);
+            let pipePosition = getRandomInt(20, gameScene.height - 170 - 20);
 
             let pTop = new Pipe(this.pipeTexture, true);
             let pBottom = new Pipe(this.pipeTexture, false);
@@ -309,6 +419,8 @@ class GameScene {
                     }
 
                 });
+                this.restartButton.update();
+                this.fullScreenButton.update();
             }
             this.frameElapsedTime = 0;
         }
@@ -321,7 +433,10 @@ class GameScene {
 
     destroy() {
         this.app.destroy();
-        let a = 123;
+        document.removeEventListener('fullscreenchange', this._resizeScene, false);
+        document.removeEventListener('mozfullscreenchange', this._resizeScene, false);
+        document.removeEventListener('MSFullscreenChange', this._resizeScene, false);
+        document.removeEventListener('webkitfullscreenchange', this._resizeScene, false);
     }
 
 }
@@ -333,25 +448,23 @@ class FlappyBird extends React.Component {
 
     componentDidMount() {
         document.title = "FlappyBird";
-        this.gameScene = new GameScene(1280, 720, document.getElementById('GameView'));
+        gameScene = new GameScene(document.getElementById('GameView'));
         Keyboard.init();
         Mouse.init();
+        document.body.style.overflow = 'hidden';
     }
 
     componentWillUnmount() {
         Keyboard.destroy();
         Mouse.destroy();
-        this.gameScene.destroy();
+        gameScene.destroy();
+        document.body.style.overflow = '';
     }
 
     render() {
         return (
-            <div className="d-flex flex-column align-items-center" style={{ backgroundColor: '#333' }}>
-                <Link className="btn btn-secondary m-3" to={"/"} style={{ minWidth: '150px' }}><i className="fa fa-arrow-left"></i> Back</Link>
-
-                <div className="container-fluid m-5 text-center" >
-                    <canvas id="GameView"></canvas>
-                </div>
+            <div style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+                <canvas id="GameView"></canvas>
             </div>
 
         );
