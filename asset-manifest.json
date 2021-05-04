@@ -1,20 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.fc8ff639.chunk.css",
-    "main.js": "/static/js/main.8a7fdb2b.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.3d3620ba.js",
+    "main.js": "/static/js/main.1b186529.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.d69dddec.js",
     "static/css/2.5939408e.chunk.css": "/static/css/2.5939408e.chunk.css",
-    "static/js/2.a7ab4c6a.chunk.js": "/static/js/2.a7ab4c6a.chunk.js",
+    "static/js/2.c0367ed5.chunk.js": "/static/js/2.c0367ed5.chunk.js",
     "static/css/3.ce3b63bd.chunk.css": "/static/css/3.ce3b63bd.chunk.css",
-    "static/js/3.1a7860f5.chunk.js": "/static/js/3.1a7860f5.chunk.js",
-    "static/js/4.80475881.chunk.js": "/static/js/4.80475881.chunk.js",
+    "static/js/3.0557d0f1.chunk.js": "/static/js/3.0557d0f1.chunk.js",
+    "static/js/4.e895714c.chunk.js": "/static/js/4.e895714c.chunk.js",
     "static/css/5.49fe5bc4.chunk.css": "/static/css/5.49fe5bc4.chunk.css",
-    "static/js/5.f80a3b21.chunk.js": "/static/js/5.f80a3b21.chunk.js",
-    "static/js/6.f84bb0de.chunk.js": "/static/js/6.f84bb0de.chunk.js",
+    "static/js/5.d2d6afb0.chunk.js": "/static/js/5.d2d6afb0.chunk.js",
+    "static/js/6.4269e39e.chunk.js": "/static/js/6.4269e39e.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.a7ab4c6a.chunk.js.LICENSE.txt": "/static/js/2.a7ab4c6a.chunk.js.LICENSE.txt",
-    "static/js/3.1a7860f5.chunk.js.LICENSE.txt": "/static/js/3.1a7860f5.chunk.js.LICENSE.txt",
+    "static/js/2.c0367ed5.chunk.js.LICENSE.txt": "/static/js/2.c0367ed5.chunk.js.LICENSE.txt",
+    "static/js/3.0557d0f1.chunk.js.LICENSE.txt": "/static/js/3.0557d0f1.chunk.js.LICENSE.txt",
     "static/media/bird.png": "/static/media/bird.ef1c2c77.png",
+    "static/media/button-fullscreen.png": "/static/media/button-fullscreen.89adeb36.png",
+    "static/media/button-restart.png": "/static/media/button-restart.eeaaf088.png",
     "static/media/flappybird-title.png": "/static/media/flappybird-title.cda809c0.png",
     "static/media/gameover.png": "/static/media/gameover.efd1e81b.png",
     "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4",
@@ -24,10 +26,10 @@
     "static/media/section-more.svg": "/static/media/section-more.c0222852.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.3d3620ba.js",
+    "static/js/runtime-main.d69dddec.js",
     "static/css/3.ce3b63bd.chunk.css",
-    "static/js/3.1a7860f5.chunk.js",
+    "static/js/3.0557d0f1.chunk.js",
     "static/css/main.fc8ff639.chunk.css",
-    "static/js/main.8a7fdb2b.chunk.js"
+    "static/js/main.1b186529.chunk.js"
   ]
 }
