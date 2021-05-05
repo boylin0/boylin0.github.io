@@ -127,11 +127,7 @@ class Bird extends Collision {
     constructor(texture) {
         super();
         this.sprite = new PIXI.Sprite(texture);
-
-        let resizeRatio = (45 / this.sprite.width);
-        this.sprite.width = this.sprite.width * resizeRatio;
-        this.sprite.height = this.sprite.height * resizeRatio;
-
+        this._resize();
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.position = {
@@ -144,11 +140,17 @@ class Bird extends Collision {
         }
     }
 
-    update(delta) {
+    _resize(){
+        let resizeRatio = ((gameScene.height / 20) / this.sprite.width);
+        this.sprite.width = this.sprite.width * resizeRatio;
+        this.sprite.height = this.sprite.height * resizeRatio;
+    }
 
+    update(delta) {
+        const rotateValue = (gameScene.height / 25);
         // Bird rotating based on speed
-        let speedRate = Math.max(Math.min(this.speed.y, 45), -45);
-        this.sprite.rotation = mapValue(speedRate, 45, -45, (3.14 / 2), -(3.14 / 2));
+        let speedRate = Math.max(Math.min(this.speed.y, rotateValue), -rotateValue);
+        this.sprite.rotation = mapValue(speedRate, rotateValue, -rotateValue, (3.14 / 2), -(3.14 / 2));
 
         // Speed Y
         if (this.sprite.position.y + this.speed.y < 0) {
@@ -160,7 +162,7 @@ class Bird extends Collision {
 
         // Down Gravity
         if (this.sprite.position.y < gameScene.height) {
-            this.speed.y += 0.4 * delta;
+            this.speed.y += (gameScene.height / 1500) * delta;
         } else {
             this.speed.y = 0;
         }
@@ -186,7 +188,8 @@ class Bird extends Collision {
     }
 
     Jump() {
-        this.setSpeed(0, -10);
+        const birdJumpSpeed = -(gameScene.height / 60);
+        this.setSpeed(0, birdJumpSpeed);
     }
 
     hitTestCircleRect(sprite) {
@@ -202,7 +205,7 @@ class Pipe {
         const container = new PIXI.Container();
         const spriteHead = new PIXI.Sprite(textureHead);
         const spriteBody = new PIXI.Sprite(textureBody);
-        let resizeRatio = (40 / spriteHead.height);
+        let resizeRatio = ((gameScene.height / 25) / spriteHead.height);
         spriteHead.width = spriteHead.width * resizeRatio;
         spriteHead.height = spriteHead.height * resizeRatio;
         spriteBody.width = spriteBody.width * resizeRatio;
@@ -245,7 +248,9 @@ class Pipe {
 
     update(delta) {
 
-        this.position.x -= 5 * delta;
+        const pipeSpeed = (gameScene.height / 120);
+
+        this.position.x -= pipeSpeed * delta;
 
         this.sprite.position.x = this.position.x;
         this.sprite.position.y = this.position.y;
@@ -367,6 +372,8 @@ class GameScene {
             if (typeof t.app?.renderer?.width === 'undefined') return;
             t.width = t.app.renderer.width;
             t.height = t.app.renderer.height;
+
+            t.bird._resize();
             t.scoreTexture.position.x = 10;
             t.scoreTexture.position.y = 10;
             t.gameTitle.x = t.app.renderer.width / 2;
@@ -446,7 +453,7 @@ class GameScene {
             if (isMobile()) {
                 window.open('fb-messenger://share?link=' + encodeURIComponent(window.location.href));
             } else {
-                alert('Unsupported');
+                alert('Sharing is not supported on your device.');
             }
             //window.open(`https://line.me/R/msg/text/?${encodeURIComponent(window.location.href)}`);
         }
@@ -473,7 +480,10 @@ class GameScene {
 
         /* Pipe Generator */
         if (!this.isGameover && this.lastAddPipeTime > 100) {
-            let pipePosition = getRandomInt(20, gameScene.height - 200 - 20);
+
+            const pipeGap = (gameScene.height / 4); 
+
+            let pipePosition = getRandomInt(20, gameScene.height - pipeGap - 20);
 
             let pTop = new Pipe(
                 this.pipeheadTexture,
@@ -485,7 +495,7 @@ class GameScene {
                 this.pipeheadTexture,
                 this.pipebodyTexture,
                 this.app.renderer.width + 75,
-                pipePosition + 200,
+                pipePosition + pipeGap,
                 false);
             this.gameLayer.addChild(pTop.sprite);
             this.gameLayer.addChild(pBottom.sprite);
