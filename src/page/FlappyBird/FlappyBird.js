@@ -6,7 +6,7 @@ import 'wowjs/css/libs/animate.css';
 import * as PIXI from 'pixi.js'
 import PixiKeyboard from './Keyboard';
 import PixiMouse from './Mouse';
-import { goFullscreenMode, exitFullscreenMode } from '../../utils';
+import { goFullscreenMode, exitFullscreenMode, isMobile } from '../../utils';
 
 let Keyboard = new PixiKeyboard();
 let Mouse = new PixiMouse();
@@ -43,7 +43,6 @@ class Collision {
         let ab = spriteA.getBounds();
         let bb = spriteB.getBounds();
 
-
         let cx = ab.x + (ab.width / 2);
         let cy = ab.y + (ab.height / 2);
         let rx = bb.x;
@@ -51,22 +50,17 @@ class Collision {
         let rw = bb.width;
         let rh = bb.height;
 
-        // temporary variables to set edges for testing
         let testX = cx;
         let testY = cy;
+        if (cx < rx) testX = rx;
+        else if (cx > rx + rw) testX = rx + rw;
+        if (cy < ry) testY = ry;
+        else if (cy > ry + rh) testY = ry + rh;
 
-        // which edge is closest?
-        if (cx < rx) testX = rx;      // test left edge
-        else if (cx > rx + rw) testX = rx + rw;   // right edge
-        if (cy < ry) testY = ry;      // top edge
-        else if (cy > ry + rh) testY = ry + rh;   // bottom edge
-
-        // get distance from closest edges
         let distX = cx - testX;
         let distY = cy - testY;
         let distance = Math.sqrt((distX * distX) + (distY * distY));
 
-        // if the distance is less than the radius, collision!
         if (distance <= radius) {
             return true;
         }
@@ -117,7 +111,7 @@ class Button {
     isClick() {
         if (this.sprite.visible == false) return false;
         let bound = this.sprite.getBounds();
-        if (Mouse.isButtonPressed('touchtap') || Mouse.isButtonPressed(0)) {
+        if (Mouse.isButtonReleased('touchtap') || Mouse.isButtonReleased(0)) {
             return (
                 Mouse.getPosX() < bound.x + bound.width &&
                 Mouse.getPosX() > bound.x &&
@@ -134,7 +128,7 @@ class Bird extends Collision {
         super();
         this.sprite = new PIXI.Sprite(texture);
 
-        let resizeRatio = (55 / this.sprite.width);
+        let resizeRatio = (45 / this.sprite.width);
         this.sprite.width = this.sprite.width * resizeRatio;
         this.sprite.height = this.sprite.height * resizeRatio;
 
@@ -277,6 +271,9 @@ class GameScene {
             .add('flappybirdTitle', require('./media/flappyduck-title.png').default)
             .add('buttonRestart', require('./media/button-restart.png').default)
             .add('buttonFullscreen', require('./media/button-fullscreen.png').default)
+            .add('buttonHome', require('./media/button-home.png').default)
+            .add('buttonExit', require('./media/button-exit.png').default)
+            .add('buttonShare', require('./media/button-share.png').default)
             .load((loader, resources) => {
 
                 let textStyle = new PIXI.TextStyle({
@@ -332,10 +329,14 @@ class GameScene {
                 this.isGameover = true;
 
                 this.restartButton = new Button(resources.buttonRestart.texture);
-                this.gameUI.addChild(this.restartButton.sprite);
-
                 this.fullScreenButton = new Button(resources.buttonFullscreen.texture);
+                this.exitButton = new Button(resources.buttonExit.texture);
+                this.shareButton = new Button(resources.buttonShare.texture);
+
+                this.gameUI.addChild(this.restartButton.sprite);
                 this.gameUI.addChild(this.fullScreenButton.sprite);
+                this.gameUI.addChild(this.exitButton.sprite);
+                this.gameUI.addChild(this.shareButton.sprite);
 
                 this._resizeScene();
 
@@ -381,9 +382,14 @@ class GameScene {
             t.gameTitle.width = t.gameTitle.width * ratio;
             t.gameTitle.height = t.gameTitle.height * ratio;
 
-
-            t.restartButton.setPosition(t.width / 2 + 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
-            t.fullScreenButton.setPosition(t.width / 2 - 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
+            let buttons = [t.restartButton, t.fullScreenButton, t.exitButton, t.shareButton];
+            let buttonWidth = buttons.reduce((total, arr) => { return total + arr.width + 10 }, 0);
+            let lastPosX = (t.width / 2) - (buttonWidth / 2) + 40;
+            let buttonY = t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120;
+            buttons.forEach((elem, idx, arr) => {
+                elem.setPosition(lastPosX, buttonY);
+                lastPosX += elem.width + 10;
+            });
         }, 50);
 
     }
@@ -403,6 +409,8 @@ class GameScene {
         this.score = 0;
         this.restartButton.sprite.visible = false;
         this.fullScreenButton.sprite.visible = false;
+        this.exitButton.sprite.visible = false;
+        this.shareButton.sprite.visible = false;
     }
 
     gameLogicUpdate(delta) {
@@ -430,6 +438,19 @@ class GameScene {
             toggleFullscreen();
         }
 
+        if (this.exitButton.isClick()) {
+            window.location.hash = "#";
+        }
+
+        if (this.shareButton.isClick()) {
+            if (isMobile()) {
+                window.open('fb-messenger://share?link=' + encodeURIComponent(window.location.href));
+            } else {
+                alert('Unsupported');
+            }
+            //window.open(`https://line.me/R/msg/text/?${encodeURIComponent(window.location.href)}`);
+        }
+
         /* Check bird is dead */
         if (this.bird.isDie()) {
             this.isGameover = true;
@@ -443,9 +464,11 @@ class GameScene {
                 this.gameover.visible = true;
             }
 
-            // Display play options
+            // Display game options
             this.restartButton.sprite.visible = true;
             this.fullScreenButton.sprite.visible = true;
+            this.exitButton.sprite.visible = true;
+            this.shareButton.sprite.visible = true;
         }
 
         /* Pipe Generator */
@@ -499,6 +522,8 @@ class GameScene {
 
             this.restartButton.update(this.frameElapsedTime);
             this.fullScreenButton.update(this.frameElapsedTime);
+            this.exitButton.update(this.frameElapsedTime);
+            this.shareButton.update(this.frameElapsedTime);
 
             this.frameElapsedTime = 0;
         }
@@ -527,7 +552,7 @@ class FlappyBird extends React.Component {
     }
 
     componentDidMount() {
-        document.title = "FlappyBird";
+        document.title = "FlappyDuck";
         gameScene = new GameScene(document.getElementById('GameView'));
         Keyboard.init();
         Mouse.init();
