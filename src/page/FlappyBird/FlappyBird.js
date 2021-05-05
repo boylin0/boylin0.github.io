@@ -237,6 +237,13 @@ class Pipe {
             x: 0,
             y: 0,
         }
+
+        this.pipeOffset = 0;
+        this.isStaticPipe = true;
+    }
+
+    setStaticPipe(val){
+        this.isStaticPipe = val;
     }
 
     setPosition(x, y) {
@@ -251,6 +258,12 @@ class Pipe {
         const pipeSpeed = (gameScene.height / 120);
 
         this.position.x -= pipeSpeed * delta;
+
+
+        if (this.isStaticPipe) {
+            this.pipeOffset = Math.sin(new Date().getTime() / 1000) / 2;
+            this.position.y = this.position.y + this.pipeOffset;
+        }
 
         this.sprite.position.x = this.position.x;
         this.sprite.position.y = this.position.y;
@@ -500,6 +513,11 @@ class GameScene {
             this.gameLayer.addChild(pTop.sprite);
             this.gameLayer.addChild(pBottom.sprite);
 
+            if(Math.random() * 10 > 5){
+                pTop.setStaticPipe(false);
+                pBottom.setStaticPipe(false);
+            }
+
             this.pipes.push({ pipeUp: pTop, pipeBottom: pBottom });
             this.lastAddPipeTime = 0;
         }
@@ -560,6 +578,10 @@ class FlappyBird extends React.Component {
     constructor(props) {
         super(props);
     }
+
+/*     touchListen(){
+        k = 1;
+    } */
 
     componentDidMount() {
         document.title = "FlappyDuck";
