@@ -23,7 +23,7 @@ function mapValue(x, in_min, in_max, out_min, out_max) {
 }
 
 function toggleFullscreen() {
-    if (!window.screenTop && !window.screenY) {
+    if ((document.fullscreenElement != null)) {
         exitFullscreenMode();
     } else {
         goFullscreenMode(document.getElementById('GameView'));
@@ -33,10 +33,46 @@ function toggleFullscreen() {
 
 class Collision {
     hitTestRect(spriteA, spriteB) {
-        var ab = spriteA.getBounds();
-        var bb = spriteB.getBounds();
+        let ab = spriteA.getBounds();
+        let bb = spriteB.getBounds();
         return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
     }
+
+    hitTestCircleRect(spriteA, radius, spriteB) {
+
+        let ab = spriteA.getBounds();
+        let bb = spriteB.getBounds();
+
+
+        let cx = ab.x + (ab.width / 2);
+        let cy = ab.y + (ab.height / 2);
+        let rx = bb.x;
+        let ry = bb.y;
+        let rw = bb.width;
+        let rh = bb.height;
+
+        // temporary variables to set edges for testing
+        let testX = cx;
+        let testY = cy;
+
+        // which edge is closest?
+        if (cx < rx) testX = rx;      // test left edge
+        else if (cx > rx + rw) testX = rx + rw;   // right edge
+        if (cy < ry) testY = ry;      // top edge
+        else if (cy > ry + rh) testY = ry + rh;   // bottom edge
+
+        // get distance from closest edges
+        let distX = cx - testX;
+        let distY = cy - testY;
+        let distance = Math.sqrt((distX * distX) + (distY * distY));
+
+        // if the distance is less than the radius, collision!
+        if (distance <= radius) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 class Button {
@@ -53,6 +89,8 @@ class Button {
             x: 0,
             y: 0,
         }
+        this.width = this.sprite.width;
+        this.height = this.sprite.height;
     }
     setPosition(x, y) {
         this.position.x = x;
@@ -63,6 +101,18 @@ class Button {
     update(delta) {
         this.sprite.position.x = this.position.x;
         this.sprite.position.y = this.position.y;
+
+        let bound = this.sprite.getBounds();
+        if (Mouse.getPosX() < bound.x + bound.width &&
+            Mouse.getPosX() > bound.x &&
+            Mouse.getPosY() < bound.y + bound.height &&
+            Mouse.getPosY() > bound.y) {
+            this.sprite.width = this.width * 1.1;
+            this.sprite.height = this.height * 1.1;
+        } else {
+            this.sprite.width = this.width * 1.0;
+            this.sprite.height = this.height * 1.0;
+        }
     }
     isClick() {
         if (this.sprite.visible == false) return false;
@@ -74,6 +124,7 @@ class Button {
                 Mouse.getPosY() < bound.y + bound.height &&
                 Mouse.getPosY() > bound.y);
         }
+
         return false;
     }
 }
@@ -83,7 +134,7 @@ class Bird extends Collision {
         super();
         this.sprite = new PIXI.Sprite(texture);
 
-        let resizeRatio = (35 / this.sprite.width);
+        let resizeRatio = (55 / this.sprite.width);
         this.sprite.width = this.sprite.width * resizeRatio;
         this.sprite.height = this.sprite.height * resizeRatio;
 
@@ -144,18 +195,30 @@ class Bird extends Collision {
         this.setSpeed(0, -10);
     }
 
-    hitTestRect(sprite) {
-        return super.hitTestRect(this.sprite, sprite);
+    hitTestCircleRect(sprite) {
+        return super.hitTestCircleRect(this.sprite, (this.sprite.width / 2) - 5, sprite);
     }
 
 }
 
 class Pipe {
-    constructor(texture, directionDown) {
-        this.sprite = new PIXI.Sprite(texture);
-        let resizeRatio = (80 / this.sprite.width);
-        this.sprite.width = this.sprite.width * resizeRatio;
-        this.sprite.height = this.sprite.height * resizeRatio;
+    constructor(textureHead, textureBody, posX, posY, directionDown) {
+
+
+        const container = new PIXI.Container();
+        const sp1 = new PIXI.Sprite(textureHead);
+        let resizeRatio = (60 / sp1.height);
+        sp1.width = sp1.width * resizeRatio;
+        sp1.height = sp1.height * resizeRatio;
+        const sp2 = new PIXI.Sprite(textureBody);
+        sp2.width = sp2.width * resizeRatio;
+        sp2.height = gameScene.height * 2;
+        sp2.position.y = sp1.position.y + sp1.height;
+        sp2.position.x = (sp1.width / 2) - (sp2.width / 2);
+        container.addChild(sp1);
+        container.addChild(sp2);
+        this.texture = gameScene.app.renderer.generateTexture(container);
+        this.sprite = new PIXI.Sprite(this.texture);
 
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0;
@@ -166,8 +229,8 @@ class Pipe {
         }
 
         this.position = {
-            x: 0,
-            y: 0,
+            x: posX,
+            y: posY,
         }
         this.speed = {
             x: 0,
@@ -192,6 +255,7 @@ class Pipe {
     }
     destroy() {
         this.sprite.destroy();
+        this.texture.destroy();
     }
 }
 
@@ -201,10 +265,12 @@ class GameScene {
 
         this.app = new PIXI.Application({ resizeTo: window, backgroundColor: 0x9acefe, view: canvas });
         this.app.loader
-            .add('bird', require('./media/bird.png').default)
+            .add('bird', require('./media/duck.png').default)
             .add('pipe', require('./media/pipe.png').default)
+            .add('pipebody', require('./media/pipe-body.png').default)
+            .add('pipehead', require('./media/pipe-head.png').default)
             .add('gameover', require('./media/gameover.png').default)
-            .add('flappybirdTitle', require('./media/flappybird-title.png').default)
+            .add('flappybirdTitle', require('./media/flappyduck-title.png').default)
             .add('buttonRestart', require('./media/button-restart.png').default)
             .add('buttonFullscreen', require('./media/button-fullscreen.png').default)
             .load((loader, resources) => {
@@ -238,13 +304,15 @@ class GameScene {
                 this.gameUI.addChild(this.gameover);
 
                 this.pipeTexture = resources.pipe.texture;
+                this.pipeheadTexture = resources.pipehead.texture;
+                this.pipebodyTexture = resources.pipebody.texture;
                 this.pipes = [];
 
                 this.app.ticker.add(delta => this.gameloop(delta));
 
                 this.gameTitle = new PIXI.Sprite(resources.flappybirdTitle.texture);
-                this.gameTitle.width = this.gameTitle.width * 0.7;
-                this.gameTitle.height = this.gameTitle.height * 0.7;
+                this.gameTitle.width = this.gameTitle.width * 0.8;
+                this.gameTitle.height = this.gameTitle.height * 0.8;
                 this.gameTitle.x = this.app.renderer.width / 2;
                 this.gameTitle.y = this.app.renderer.height / 2;
                 this.gameTitle.anchor.x = 0.5;
@@ -306,10 +374,10 @@ class GameScene {
             t.gameover.height = t.gameover.height * ratio;
 
             ratio = Math.min((t.width) / t.gameTitle.width, 1);
-            t.gameTitle.width = t.gameTitle.width * ratio ;
-            t.gameTitle.height = t.gameTitle.height * ratio ;
+            t.gameTitle.width = t.gameTitle.width * ratio;
+            t.gameTitle.height = t.gameTitle.height * ratio;
 
-            
+
             t.restartButton.setPosition(t.width / 2 + 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
             t.fullScreenButton.setPosition(t.width / 2 - 50, t.gameTitle.getBounds().y + t.gameTitle.getBounds().height + 120);
         }, 50);
@@ -380,35 +448,39 @@ class GameScene {
         if (!this.isGameover && this.lastAddPipeTime > 100) {
             let pipePosition = getRandomInt(20, gameScene.height - 170 - 20);
 
-            let pTop = new Pipe(this.pipeTexture, true);
-            let pBottom = new Pipe(this.pipeTexture, false);
-            pTop.setPosition(this.app.renderer.width + pTop.sprite.width, pipePosition);
-            pBottom.setPosition(this.app.renderer.width + pBottom.sprite.width, pipePosition + 170);
+            let pTop = new Pipe(
+                this.pipeheadTexture,
+                this.pipebodyTexture,
+                this.app.renderer.width + 75,
+                pipePosition,
+                true);
+            let pBottom = new Pipe(
+                this.pipeheadTexture,
+                this.pipebodyTexture,
+                this.app.renderer.width + 75,
+                pipePosition + 170,
+                false);
             this.gameLayer.addChild(pTop.sprite);
             this.gameLayer.addChild(pBottom.sprite);
 
             this.pipes.push({ pipeUp: pTop, pipeBottom: pBottom });
             this.lastAddPipeTime = 0;
         }
-
-        Keyboard.update();
-        Mouse.update();
-
     }
 
     gameFrameUpdate(delta) {
         this.frameElapsedTime += delta;
-        if (1) {
+        if (this.frameElapsedTime >= 0) {
 
             /* GameObject Update */
+            this.bird.update(this.frameElapsedTime);
             if (!this.isGameover) {
-                this.bird.update(this.frameElapsedTime);
                 this.pipes.forEach((val, index) => {
 
                     val.pipeUp.update(this.frameElapsedTime);
                     val.pipeBottom.update(this.frameElapsedTime);
 
-                    if (this.bird.hitTestRect(val.pipeUp.sprite) || this.bird.hitTestRect(val.pipeBottom.sprite)) {
+                    if (this.bird.hitTestCircleRect(val.pipeUp.sprite) || this.bird.hitTestCircleRect(val.pipeBottom.sprite)) {
                         this.isGameover = true;
                     }
 
@@ -419,9 +491,11 @@ class GameScene {
                     }
 
                 });
-                this.restartButton.update();
-                this.fullScreenButton.update();
             }
+
+            this.restartButton.update(this.frameElapsedTime);
+            this.fullScreenButton.update(this.frameElapsedTime);
+
             this.frameElapsedTime = 0;
         }
     }
@@ -429,6 +503,8 @@ class GameScene {
     gameloop(delta) {
         this.gameLogicUpdate(delta);
         this.gameFrameUpdate(delta);
+        Keyboard.update();
+        Mouse.update();
     }
 
     destroy() {
