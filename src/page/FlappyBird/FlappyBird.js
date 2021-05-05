@@ -206,19 +206,23 @@ class Pipe {
 
 
         const container = new PIXI.Container();
-        const sp1 = new PIXI.Sprite(textureHead);
-        let resizeRatio = (60 / sp1.height);
-        sp1.width = sp1.width * resizeRatio;
-        sp1.height = sp1.height * resizeRatio;
-        const sp2 = new PIXI.Sprite(textureBody);
-        sp2.width = sp2.width * resizeRatio;
-        sp2.height = gameScene.height * 2;
-        sp2.position.y = sp1.position.y + sp1.height;
-        sp2.position.x = (sp1.width / 2) - (sp2.width / 2);
-        container.addChild(sp1);
-        container.addChild(sp2);
+        const spriteHead = new PIXI.Sprite(textureHead);
+        const spriteBody = new PIXI.Sprite(textureBody);
+        let resizeRatio = (40 / spriteHead.height);
+        spriteHead.width = spriteHead.width * resizeRatio;
+        spriteHead.height = spriteHead.height * resizeRatio;
+        spriteBody.width = spriteBody.width * resizeRatio;
+        spriteBody.height = gameScene.height * 2;
+        spriteBody.position.y = spriteHead.position.y + spriteHead.height;
+        spriteBody.position.x = (spriteHead.width / 2) - (spriteBody.width / 2);
+        container.addChild(spriteHead);
+        container.addChild(spriteBody);
+
         this.texture = gameScene.app.renderer.generateTexture(container);
         this.sprite = new PIXI.Sprite(this.texture);
+        container.destroy();
+        spriteHead.destroy();
+        spriteBody.destroy();
 
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0;
@@ -446,7 +450,7 @@ class GameScene {
 
         /* Pipe Generator */
         if (!this.isGameover && this.lastAddPipeTime > 100) {
-            let pipePosition = getRandomInt(20, gameScene.height - 170 - 20);
+            let pipePosition = getRandomInt(20, gameScene.height - 200 - 20);
 
             let pTop = new Pipe(
                 this.pipeheadTexture,
@@ -458,7 +462,7 @@ class GameScene {
                 this.pipeheadTexture,
                 this.pipebodyTexture,
                 this.app.renderer.width + 75,
-                pipePosition + 170,
+                pipePosition + 200,
                 false);
             this.gameLayer.addChild(pTop.sprite);
             this.gameLayer.addChild(pBottom.sprite);
@@ -473,8 +477,8 @@ class GameScene {
         if (this.frameElapsedTime >= 0) {
 
             /* GameObject Update */
-            this.bird.update(this.frameElapsedTime);
             if (!this.isGameover) {
+                this.bird.update(this.frameElapsedTime);
                 this.pipes.forEach((val, index) => {
 
                     val.pipeUp.update(this.frameElapsedTime);
