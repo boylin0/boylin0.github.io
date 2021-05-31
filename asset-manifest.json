@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.fc8ff639.chunk.css",
-    "main.js": "/static/js/main.fc508284.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.929b101e.js",
+    "main.css": "/static/css/main.04878d9f.chunk.css",
+    "main.js": "/static/js/main.1c360702.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.a04adcc5.js",
     "static/css/2.5939408e.chunk.css": "/static/css/2.5939408e.chunk.css",
-    "static/js/2.87930f4d.chunk.js": "/static/js/2.87930f4d.chunk.js",
+    "static/js/2.8ded5692.chunk.js": "/static/js/2.8ded5692.chunk.js",
     "static/css/3.ce3b63bd.chunk.css": "/static/css/3.ce3b63bd.chunk.css",
-    "static/js/3.4bdd9d9f.chunk.js": "/static/js/3.4bdd9d9f.chunk.js",
-    "static/js/4.483ae21a.chunk.js": "/static/js/4.483ae21a.chunk.js",
-    "static/css/5.49fe5bc4.chunk.css": "/static/css/5.49fe5bc4.chunk.css",
-    "static/js/5.fad9c922.chunk.js": "/static/js/5.fad9c922.chunk.js",
+    "static/js/3.59531411.chunk.js": "/static/js/3.59531411.chunk.js",
+    "static/js/4.768ae1d4.chunk.js": "/static/js/4.768ae1d4.chunk.js",
+    "static/css/5.3e1335a5.chunk.css": "/static/css/5.3e1335a5.chunk.css",
+    "static/js/5.0e5ce799.chunk.js": "/static/js/5.0e5ce799.chunk.js",
     "static/js/6.adc636ec.chunk.js": "/static/js/6.adc636ec.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.87930f4d.chunk.js.LICENSE.txt": "/static/js/2.87930f4d.chunk.js.LICENSE.txt",
-    "static/js/3.4bdd9d9f.chunk.js.LICENSE.txt": "/static/js/3.4bdd9d9f.chunk.js.LICENSE.txt",
+    "static/js/2.8ded5692.chunk.js.LICENSE.txt": "/static/js/2.8ded5692.chunk.js.LICENSE.txt",
+    "static/js/3.59531411.chunk.js.LICENSE.txt": "/static/js/3.59531411.chunk.js.LICENSE.txt",
     "static/media/button-exit.png": "/static/media/button-exit.e0de99d1.png",
     "static/media/button-fullscreen.png": "/static/media/button-fullscreen.89adeb36.png",
     "static/media/button-home.png": "/static/media/button-home.3b0f1701.png",
@@ -24,15 +24,15 @@
     "static/media/gameover.png": "/static/media/gameover.efd1e81b.png",
     "static/media/liveabc-tutorial.b2fd5db4.mp4": "/static/media/liveabc-tutorial.b2fd5db4.mp4",
     "static/media/pipe.png": "/static/media/pipe.01fa9585.png",
-    "static/media/section-flappybird.svg": "/static/media/section-flappybird.bb55533d.svg",
-    "static/media/section-liveabc.svg": "/static/media/section-liveabc.348c0989.svg",
-    "static/media/section-more.svg": "/static/media/section-more.c0222852.svg"
+    "static/media/section-flappybird.svg": "/static/media/section-flappybird.f1d29afa.svg",
+    "static/media/section-liveabc.svg": "/static/media/section-liveabc.641bf318.svg",
+    "static/media/section-more.svg": "/static/media/section-more.e977576b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.929b101e.js",
+    "static/js/runtime-main.a04adcc5.js",
     "static/css/3.ce3b63bd.chunk.css",
-    "static/js/3.4bdd9d9f.chunk.js",
-    "static/css/main.fc8ff639.chunk.css",
-    "static/js/main.fc508284.chunk.js"
+    "static/js/3.59531411.chunk.js",
+    "static/css/main.04878d9f.chunk.css",
+    "static/js/main.1c360702.chunk.js"
   ]
 }
