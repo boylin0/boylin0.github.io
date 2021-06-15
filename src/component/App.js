@@ -18,6 +18,7 @@ import FlappyBird from '../page/FlappyBird/FlappyBird';
 
 const Home = React.lazy(() => import('../page/Home/Home'));
 const LiveABC = React.lazy(() => import('../page/LiveABC/LiveABC'));
+const GomokuStat = React.lazy(() => import('../page/GomokuStat/GomokuStat'));
 
 class SuspenseFallback extends React.Component {
     render() {
@@ -43,6 +44,9 @@ class App extends React.Component {
                         </Route>
                         <Route exact path="/FlappyBird">
                             <FlappyBird />
+                        </Route>
+                        <Route exact path="/GomokuStat">
+                            <GomokuStat />
                         </Route>
                         <Route exact path="/">
                             <Home />
