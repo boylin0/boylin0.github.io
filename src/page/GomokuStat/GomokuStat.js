@@ -9,20 +9,20 @@ class GomokuView extends React.Component {
         super(props);
         this.socket = null;
         this.state = {
-            info: ''
+            info: null
         }
     }
 
-    updateStatus(str) {
+    updateStatus(data) {
         this.setState({
-            info: str
+            info: data
         })
     }
 
     componentDidMount() {
         document.title = 'Gomoku Stat';
-        const gomokuStatusUrl =  `gomoku-stat.herokuapp.com`;
-        this.socket = io(`ws://${gomokuStatusUrl}`,
+        const gomokuStatusUrl = `gomoku-stat.herokuapp.com`;
+        this.socket = io(`wss://${gomokuStatusUrl}`,
             {
                 reconnectionDelayMax: 5000,
             }
@@ -31,7 +31,7 @@ class GomokuView extends React.Component {
             console.log(this.socket.id);
         });
         this.socket.on("updateGomoku", (data) => {
-            this.updateStatus(`${data['conductIndex']} / ${data['conductTotal']} = ${data['completeRate']}% -> ${data['user1']} 正在對戰 ${data['user2']} 第${data['round']}回合`)
+            this.updateStatus(data)
             console.log(data);
         });
     }
@@ -47,10 +47,33 @@ class GomokuView extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container p-5 text-center" id="status">
-                    <h3>GOMOKU STATUS</h3>
-                    <h6>即時對戰資訊</h6>
-                    {this.state.info}
+                <div className="row align-items-center" style={{ height: '100vh', margin: '0px' }}>
+                    <div className="container text-center p-3" id="status">
+                        <h3>GOMOKU STATUS</h3>
+                        <h6>即時對戰資訊</h6>
+                        {
+                            this.state.info ?
+                                <div>
+                                    <div className="m-3">
+                                        {this.state.info['conductIndex']} / {this.state.info['conductTotal']} = {this.state.info['completeRate']}%
+                                        <br />
+                                        共有 {this.state.info['totalUser']} 人參賽
+                                        <br />
+                                        {this.state.info['user1']} 正在對戰 {this.state.info['user2']}
+                                        <br />
+                                        進行第{this.state.info['round']}回合
+                                    </div>
+                                    <div className="m-3">
+                                        <small className="text-muted">資料為即時更新，無須重新整理。</small>
+                                    </div>
+                                </div>
+                                :
+                                <div>
+                                    連線中，請稍後...
+                                </div>
+                        }
+                        <button className="btn btn-outline-primary btn-sm m-3" onClick={() => window.history.back()}>回上一頁</button>
+                    </div>
                 </div>
             </React.Fragment >
         );

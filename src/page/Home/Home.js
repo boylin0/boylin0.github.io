@@ -81,7 +81,7 @@ class Home extends React.Component {
                     break;
                 }
             }
-        }, 100);
+        }, 500);
 
     }
 
@@ -152,8 +152,11 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </section>
-                
+
                 <section className="d-flex flex-column text-center mb-5">
+                    <div className="m-3">
+                        <Link className="btn btn-outline-info btn-sm" to={"/GomokuStat"}><i className="fa fa-arrow-right"></i>&nbsp;NPTU資工五子棋競賽進度</Link>
+                    </div>
                     <div className="m-3">
                         <img width="32" src={require('../../resource/section-more.svg').default}></img>
                     </div>
