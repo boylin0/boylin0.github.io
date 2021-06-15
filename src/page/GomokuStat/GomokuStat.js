@@ -22,6 +22,7 @@ class GomokuView extends React.Component {
     componentDidMount() {
         document.title = 'Gomoku Stat';
         const gomokuStatusUrl = `gomoku-stat.herokuapp.com`;
+        //const gomokuStatusUrl = `localhost:3001`;
         this.socket = io(`wss://${gomokuStatusUrl}`,
             {
                 reconnectionDelayMax: 5000,
@@ -31,8 +32,9 @@ class GomokuView extends React.Component {
             console.log(this.socket.id);
         });
         this.socket.on("updateGomoku", (data) => {
-            this.updateStatus(data)
             console.log(data);
+            if (data == null) return;
+            this.updateStatus(data)
         });
     }
 
@@ -49,13 +51,18 @@ class GomokuView extends React.Component {
             <React.Fragment>
                 <div className="row align-items-center" style={{ height: '100vh', margin: '0px' }}>
                     <div className="container text-center p-3" id="status">
-                        <h3>GOMOKU STATUS</h3>
+                        <h3>NPTU資工五子棋AI比賽</h3>
                         <h6>即時對戰資訊</h6>
                         {
                             this.state.info ?
                                 <div>
                                     <div className="m-3">
-                                        {this.state.info['conductIndex']} / {this.state.info['conductTotal']} = {this.state.info['completeRate']}%
+                                        <div className="mt-3">
+                                            <div className="progress">
+                                                <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{ width: this.state.info['completeRate'] + '%' }}></div>
+                                            </div>
+                                            {this.state.info['conductIndex']} / {this.state.info['conductTotal']} = {this.state.info['completeRate']}%
+                                        </div>
                                         <br />
                                         共有 {this.state.info['totalUser']} 人參賽
                                         <br />
