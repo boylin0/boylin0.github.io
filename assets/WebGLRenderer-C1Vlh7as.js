@@ -1,0 +1,1 @@
+import{i as e}from"./flappybird-QLM_93zj.js";export{e as WebGLRenderer};
