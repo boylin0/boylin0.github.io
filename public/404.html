@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <title>BOYLIN0's Github Pages</title>
+    <!--
+      GitHub Pages serves this file for any unknown path. The script moves the path into the
+      query string and redirects to the root, where index.html restores it for the SPA router,
+      e.g. /liveabc?tab=1 becomes /?/liveabc&tab=1.
+    -->
+    <script>
+      ;((l) => {
+        const encode = (s) => s.replaceAll('&', '~and~')
+        const query = l.search ? `&${encode(l.search.slice(1))}` : ''
+        l.replace(`${l.origin}/?/${encode(l.pathname.slice(1))}${query}${l.hash}`)
+      })(window.location)
+    </script>
+  </head>
+  <body></body>
+</html>

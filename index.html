@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#18181b" />
+    <meta name="description" content="This Website created by boylin0 (https://github.com/boylin0)." />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <meta property="og:url" content="https://boylin0.github.io" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BOYLIN0's Github Pages" />
+    <meta property="og:description" content="This Website created by boylin0." />
+    <meta property="og:image" content="https://boylin0.github.io/opengraph.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="boylin0.github.io" />
+    <meta property="twitter:url" content="https://boylin0.github.io" />
+    <meta name="twitter:title" content="BOYLIN0's Github Pages" />
+    <meta name="twitter:description" content="This Website created by boylin0." />
+    <meta name="twitter:image" content="https://boylin0.github.io/opengraph.png" />
+
+    <!--
+      Restores the path that public/404.html encoded into the query string, e.g.
+      /?/liveabc&tab=1 becomes /liveabc?tab=1. Must run before the router reads the URL.
+    -->
+    <script>
+      ;((l) => {
+        if (l.search[1] !== '/') return
+        const decoded = l.search
+          .slice(1)
+          .split('&')
+          .map((s) => s.replaceAll('~and~', '&'))
+          .join('?')
+        history.replaceState(null, '', l.pathname.slice(0, -1) + decoded + l.hash)
+      })(window.location)
+    </script>
+    <style>
+      .boot-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100dvh;
+        font-family: 'Geist Variable', sans-serif;
+      }
+      .boot-loading img {
+        width: 15rem;
+        height: 15rem;
+      }
+      .boot-loading p {
+        margin: 0;
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 0.025em;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!--
+      Shown until React mounts. Mirrors src/components/LoadingScreen.tsx, which takes over while
+      the first route loads.
+    -->
+    <div id="root">
+      <div role="status" class="boot-loading">
+        <img src="/src/assets/loading.svg" alt="" />
+        <p>LOADING</p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

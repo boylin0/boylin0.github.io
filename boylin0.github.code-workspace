@@ -1,25 +1,18 @@
 {
-	"folders": [
-		{
-			"path": ".",
-			"name": "Project"
-		}
-	],
-	"settings": {},
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"type": "node",
-				"request": "launch",
-				"name": "Launch Program",
-				"skipFiles": [
-					"<node_internals>/**"
-				],
-				"cwd": "${workspaceFolder}",
-				"runtimeExecutable": "npm",
-				"runtimeArgs": ["run-script", "start"]
-			}
-		]
-	}
+  "folders": [{ "path": ".", "name": "Project" }],
+  "settings": {},
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch dev server",
+        "skipFiles": ["<node_internals>/**"],
+        "cwd": "${workspaceFolder}",
+        "runtimeExecutable": "pnpm",
+        "runtimeArgs": ["dev"]
+      }
+    ]
+  }
 }
