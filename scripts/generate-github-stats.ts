@@ -192,15 +192,29 @@ async function contrib3dBundle(): Promise<string> {
   return file
 }
 
-/** Renders the 3D contribution calendar from yoshi389111/github-profile-3d-contrib. */
-function contrib3d(files: Record<string, string>) {
-  return generate(files, anyToken ? undefined : 'set STATS_TOKEN.', async (scratch) => {
-    const bundle = await contrib3dBundle()
-    await run(process.execPath, [bundle], {
-      cwd: scratch,
-      env: { PATH: process.env.PATH, GITHUB_TOKEN: anyToken, USERNAME: USERNAME },
-    })
-  }).then(() => undefined)
+/**
+ * Renders the 3D contribution calendar from yoshi389111/github-profile-3d-contrib, styled
+ * by `settings` as described in that project's src/type.ts.
+ */
+function contrib3d(file: string, settings: Record<string, unknown>) {
+  const output = `profile-3d-contrib/${file}`
+  return generate(
+    { [file]: output },
+    anyToken ? undefined : 'set STATS_TOKEN.',
+    async (scratch) => {
+      const settingsFile = path.join(scratch, 'settings.json')
+      await writeFile(settingsFile, JSON.stringify({ ...settings, fileName: file }))
+      await run(process.execPath, [await contrib3dBundle()], {
+        cwd: scratch,
+        env: {
+          PATH: process.env.PATH,
+          GITHUB_TOKEN: anyToken,
+          USERNAME: USERNAME,
+          SETTING_JSON: settingsFile,
+        },
+      })
+    },
+  )
 }
 
 await mkdir(OUTPUT_DIR, { recursive: true })
@@ -227,7 +241,20 @@ await Promise.all([
     langs_count: '8',
     card_width: CARD_WIDTH,
   }),
-  contrib3d({ 'contrib-3d.svg': 'profile-3d-contrib/profile-night-rainbow.svg' }),
+  // The project's rainbow theme, recoloured for a white background.
+  contrib3d('contrib-3d.svg', {
+    type: 'rainbow',
+    backgroundColor: '#ffffff',
+    foregroundColor: '#1f2328',
+    strongColor: 'rgb(230,120,0)',
+    weakColor: '#57606a',
+    radarColor: 'rgb(230,120,0)',
+    growingAnimation: true,
+    saturation: '70%',
+    contribLightness: ['92%', '70%', '60%', '50%', '42%'],
+    duration: '10s',
+    hueRatio: -7,
+  }),
   snake('snake.svg', 'palette=github-light'),
   // Sequential, so the metrics containers do not trip GitHub's secondary rate limits.
   (async () => {

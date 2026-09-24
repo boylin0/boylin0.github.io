@@ -44,7 +44,7 @@ pnpm dev
 
 | 圖 | 來源 |
 | :--- | :--- |
-| 3D 貢獻日曆 | yoshi389111/github-profile-3d-contrib |
+| 3D 貢獻日曆，白底彩虹配色 | yoshi389111/github-profile-3d-contrib |
 | 貪食蛇貢獻圖 | Platane/snk，需要 Docker |
 | stats 與常用語言卡片 | github-readme-stats |
 | 個人總覽、等角貢獻日曆、三年貢獻日曆 | lowlighter/metrics，需要 Docker |

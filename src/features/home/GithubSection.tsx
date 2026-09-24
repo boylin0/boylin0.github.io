@@ -13,7 +13,7 @@ export function GithubSection() {
         <StatsCard
           src={`${BASE}/contrib-3d.svg`}
           alt="3D contribution calendar"
-          className="w-full max-w-4xl overflow-hidden rounded-xl shadow-lg"
+          className="w-full max-w-4xl overflow-hidden rounded-xl border shadow-sm"
         />
         <StatsCard
           src={`${BASE}/snake.svg`}
