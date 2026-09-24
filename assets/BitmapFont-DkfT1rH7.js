@@ -1,1 +1,0 @@
-import{n as e}from"./flappybird-QLM_93zj.js";export{e as BitmapFont};

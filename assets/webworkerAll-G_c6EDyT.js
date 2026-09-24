@@ -1,0 +1,1 @@
+import"./init-BLbmwQ-I.js";import"./flappybird-D0fVbJzc.js";

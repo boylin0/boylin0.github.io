@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-BNakU3Ej.js";import{p as t}from"./index-DgXnoGb_.js";var n=e();function r(){return(0,n.jsx)(`footer`,{className:`bg-zinc-100 py-12 text-center font-light text-muted-foreground`,children:`Made by BOYLIN0`})}function i(){return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(t,{}),(0,n.jsx)(r,{})]})}export{i as component};

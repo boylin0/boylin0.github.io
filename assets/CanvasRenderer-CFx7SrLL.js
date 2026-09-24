@@ -1,0 +1,1 @@
+import{a as e}from"./flappybird-D0fVbJzc.js";export{e as CanvasRenderer};
