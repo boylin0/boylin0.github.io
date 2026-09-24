@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     env:
       # Optional classic personal access token for scripts/generate-github-stats.ts.
       STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       pages: write
       id-token: write
