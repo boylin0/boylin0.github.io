@@ -1,9 +1,10 @@
 import sectionFlappyBird from '@/assets/section-flappybird.svg'
 import sectionLiveABC from '@/assets/section-liveabc.svg'
 import sectionMore from '@/assets/section-more.svg'
+import sectionTypomend from '@/assets/section-typomend.svg'
 import { GithubIcon } from '@/components/icons/GithubIcon'
 import { Button } from '@/components/ui/button'
-import { GITHUB_PROFILE_URL } from '@/lib/site'
+import { GITHUB_PROFILE_URL, TYPOMEND_URL } from '@/lib/site'
 import { AboutSection } from './AboutSection'
 import { AppSection } from './AppSection'
 import { GithubSection } from './GithubSection'
@@ -46,6 +47,13 @@ export function HomePage() {
         to="/liveabc"
         reversed
         description={<p className="text-muted-foreground text-sm">For NPTU only</p>}
+      />
+
+      <AppSection
+        title="Typomend"
+        image={sectionTypomend}
+        href={TYPOMEND_URL}
+        description={<p>Fixes IME homophone typos in place, in any Windows app.</p>}
       />
 
       <section className="mb-12 flex flex-col items-center gap-4">
